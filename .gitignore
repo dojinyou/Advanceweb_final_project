@@ -1,0 +1,13 @@
+# logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules/
+
+# enviroment variable file
+.env
+
+# Optional npm cache directory
+.node_repl_history
