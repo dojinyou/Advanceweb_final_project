@@ -1,0 +1,29 @@
+doctype html
+
+head
+  meta(charset='UTF-8')
+  title
+
+  script(type='text/javascript').
+    function ck(){
+    var d = document.getElementById("username").value;
+    if ("admin"==d){
+    document.getElementById("result").innerHTML="닉네임이 중복되어 사용할 수 없습니다";
+    } else {
+    document.getElementById("result").innerHTML="<a href='' onclick='xx()'> 사용가능 </a>";
+    }
+    return false;
+    }
+    function xx(){
+    var input = document.getElementById("username").value;
+    var w = opener;
+    w.document.getElementById("m_name").value=input;
+    window.close();
+    }
+    사용할 닉네임을 입력하세요;
+br
+form(action='' onsubmit='return ck()')
+  아이디
+  input#username(type='text' name='username')
+  input(type='submit' value='닉네임 검사')
+#result
