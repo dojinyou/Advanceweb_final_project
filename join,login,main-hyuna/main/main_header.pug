@@ -1,0 +1,29 @@
+head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css', rel='stylesheet', integrity='sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x', crossorigin='anonymous')
+    link(rel='stylesheet', href='/stylesheets/main_layout.css')
+    title Main
+
+header
+    .navItem1
+        a(href="/") 
+            h2 Prompt solution
+    .navItem2
+        form.w-100.me-3
+            input.form-control(type='search', placeholder='아이템 이름을 입력해 주세요!', aria-label='Search')
+    .navItem3
+        button.mypage(onclick="location.href='/mypage'")
+            img(src="/images/icon/mypage.png", alt="")
+            br
+            span.smallText 프로젝트관리
+        
+        button.zzim(onclick="location.href='/zzim'")
+            img(src="/images/icon/zzim.png", alt="")
+            br
+            span.smallText 경영관리
+
+        button.logout(onclick="location.href='/login'")
+            img(src="/images/icon/logout.png", alt="")
+            br
+            span.smallText 로그아웃

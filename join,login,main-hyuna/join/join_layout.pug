@@ -1,0 +1,114 @@
+doctype html
+head
+  meta(charset='utf-8')
+  title boards
+  link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6' crossorigin='anonymous')
+  link(rel='stylesheet' href='/user2.css')
+  script(type='text/javascript' src='jquery-1.9.1.min.js')
+  script(type='text/javascript' src='user3.js')
+  script.
+    var win
+    function newWin(){
+    win = window.open("IDCheck.html", "newWin", "width=400, height=400")
+    }
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  | &#x3139;&#x3139;&#x3139;&#x3139;&#x3139;&#x3139;
+  title Join Layout
+  style.
+    header {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #666;
+    height: 280px;
+    padding: 20px;
+    font-size: 35px;
+    color: white;
+    }
+    #primary {
+    float: left;
+    width: 10%;
+    height: 730px;
+    background-color: rgb(224, 224, 224);
+    border-bottom-left-radius: 10px;
+    }
+    #content {
+    float: left;
+    width: 80%;
+    height: 730px;
+    background-color: rgb(146, 146, 146);
+    }
+    #form {
+    width: 85%;
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: whitesmoke;
+    }
+    #secondary {
+    float: left;
+    width: 10%;
+    height: 730px;
+    background-color: rgb(224, 224, 224);
+    border-bottom-right-radius: 10px;
+    }
+    body {
+    background-color: rgb(182, 182, 182);
+    }
+    .base {
+    max-width: auto;
+    height: 920px;
+    margin: 20px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    }
+    h2 {
+    margin-top: 150px;
+    margin-left: 300px;
+    width: 200px;
+    }
+.base
+  header
+    h2 prompt solution
+  #primary
+  #content
+    #form
+      form#joinfrm(name='joinfrm' action='joinProc.do' method='post')
+        input#id_ch(type='hidden' name='id_ch' value='false')
+        input#pass_ch(type='hidden' name='pass_ch' value='false')
+        input#email_ch(type='hidden' name='email_ch' value='false')
+        input#m_tel(type='hidden' name='m_tel' value='')
+        .wrapper_table
+          .join_header
+            p &#xD68C;&#xC6D0; &#xAC00;&#xC785;
+          .join_body
+            dl
+              div
+                dt
+                  label &#xC544;&#xC774;&#xB514;
+                form(action='')
+                  dd
+                    input#m_id(name='m_id' type='text' size='30' maxlength='10' placeholder='아이디')
+                    button(onclick='newWin()') &#xC911;&#xBCF5;&#xCCB4;&#xD06C;
+              div
+                dt
+                  label &#xBE44;&#xBC00;&#xBC88;&#xD638;
+                dd
+                  input#m_pass(name='m_pass' type='password' size='30' maxlegnth='10' placeholder='비밀번호')
+              dt
+                label &#xBE44;&#xBC00;&#xBC88;&#xD638;
+              dd
+                input#m_pass_ch(name='m_pass_ch' type='password' size='30' maxlength='10' placeholder='비밀번호 확인')
+              #pass_ch_notice.arrow_box(style='display:none;')
+                ul
+                  li
+                    a.notice(style='color:red;') &#xBE44;&#xBC00;&#xBC88;&#xD638;&#xB97C; &#xB2E4;&#xC2DC; &#xC791;&#xC131;&#xD574;&#xC8FC;&#xC138;&#xC694;
+              dt
+                label &#xB2C9;&#xB124;&#xC784;
+
+              dd
+                input#m_email(name='m_email' type='text' placeholder='이메일')
+              #email_notice.arrow_box(style='display:none;')
+                ul
+                  li
+                    a.notice(style='color:red;') &#xC774;&#xBA54;&#xC77C;&#xC744; &#xB2E4;&#xC2DC; &#xC791;&#xC131;&#xD574;&#xC8FC;&#xC138;&#xC694;
+        #secondary
