@@ -1,0 +1,27 @@
+h1,h2,h3,h4,h5,h6 {
+  color: rgb(0,71,133);
+}
+
+.project-wrapper {
+	width: 1200px;
+	margin: 25px 0;
+}
+
+table.project-table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 1px;
+	text-align: center;
+	line-height: 1.5;
+}
+
+table.project-table th {
+	font-weight: bold;
+	vertical-align: top;
+	background-color: #eee;
+	font-size: 1.2rem;
+}
+table.project-table td {
+	border-bottom: 1px solid #ccc;
+	font-size: 1.2rem;
+}
