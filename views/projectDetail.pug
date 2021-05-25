@@ -1,0 +1,65 @@
+extends layout
+block link
+	link(rel='stylesheet' href="/stylesheets/project.css")
+block subTitle
+	h2 project명
+block content
+	.project-info.project-wrapper
+		h5 프로젝트 정보
+		table.project-table
+			thead
+				tr
+					th(scope='cols') 프로젝트ID
+					th(scope='cols') 프로젝트명
+					th(scope='cols') 프로젝트 종류
+					th(scope='cols') 프로젝트 기간
+			tbody 
+				tr
+					td 내용
+					td 내용
+					td 내용
+					td 내용
+			thead
+				tr
+					th(scope='cols') 주문ID
+					th(scope='cols') 고객명
+					th(scope='cols') 주문일자
+					th(scope='cols') 주문사항
+			tbody 
+				tr
+					td 내용
+					td 내용
+					td 내용
+					td 내용
+	.project-plan.project-wrapper
+		h5 프로젝트 계획정보
+		table.project-table
+			thead
+				tr
+					th(scope='cols') 프로젝트 계획ID
+					th(scope='cols') 프로젝트 계획 종류
+					th(scope='cols') 프로젝트 계획 기간
+					th(scope='cols') 의존 계획 ID
+					th(scope='cols') 계획 상태
+			tbody 
+				tr
+					td 내용
+					td 내용
+					td 내용
+					td 내용
+					td 내용
+	.project-emp.project-wrapper
+		h5 프로젝트 참여인원
+		table.project-table
+			thead
+				tr
+					th(scope='cols') 직원ID
+					th(scope='cols') 직무
+					th(scope='cols') 프로젝트 투입일
+					th(scope='cols') 프로젝트 투입 종료일
+			tbody 
+				tr
+					td 내용
+					td 내용
+					td 내용
+					td 내용

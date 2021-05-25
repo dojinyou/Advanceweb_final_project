@@ -1,0 +1,22 @@
+extends layout
+block link
+	link(rel='stylesheet' href="/stylesheets/project.css")
+block subTitle
+	h2 진행중인 프로젝트
+block content
+	.cur-project.project-wrapper
+		table.project-table
+			thead
+				tr
+					th(scope='cols') 프로젝트명
+					th(scope='cols') 프로젝트 종류
+					th(scope='cols') 프로젝트 기간
+			tbody 
+				tr
+					td 내용
+					td 내용
+					td 내용
+				tr
+					td 내용
+					td 내용
+					td 내용
