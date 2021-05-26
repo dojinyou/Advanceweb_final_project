@@ -1,0 +1,41 @@
+extends layout
+block link
+    link(rel='stylesheet' href="/stylesheets/main.css")
+block content
+    .cur-project.project-wrapper
+        .table-title
+            h2 전사알림
+        table.notice-table.project-table
+            thead
+                tr
+                    th(scope='cols') 공지번호
+                    th(scope='cols') 공지제목
+                    th(scope='cols') 등록일
+            tbody 
+                tr
+                    td 2
+                    td 여름 휴가 기간 중 안전 수칙
+                    td 2021-05-27
+                tr
+                    td 1
+                    td 셔틀버스 시간 변경 안내
+                    td 2021-05-25
+    
+    .cur-project.project-wrapper
+        .table-title
+            h2 진행중인 프로젝트
+        table.project-table
+            thead
+                tr
+                    th(scope='cols') 프로젝트명
+                    th(scope='cols') 프로젝트 종류
+                    th(scope='cols') 프로젝트 기간
+            tbody 
+                tr
+                    td 내용
+                    td 내용
+                    td 내용
+                tr
+                    td 내용
+                    td 내용
+                    td 내용

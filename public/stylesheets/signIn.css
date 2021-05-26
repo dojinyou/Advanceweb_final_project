@@ -1,0 +1,14 @@
+.login {
+	margin: 20px;
+}
+.form-floating {
+	width: 100%;
+	display: flex;
+	justify-content: space-evenly;
+}
+#login_btn {
+	width: 100%;
+}
+#sign-up_btn {
+	width: 100%;
+}

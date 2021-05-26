@@ -6,7 +6,7 @@ router.get('/', function (req, res, next) {
 	res.render('project');
 });
 
-router.get('/:projId', function (req, res, next) {
+router.get('/:projID', function (req, res, next) {
 	res.render('projectDetail');
 });
 module.exports = router;

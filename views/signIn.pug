@@ -1,11 +1,11 @@
 extends layoutSign
 block link
-  link(rel='stylesheet' href="/stylesheets/login.css")
+  link(rel='stylesheet' href="/stylesheets/signIn.css")
 block content
   .login
     .container
       .form-signin
-        form#form(action='/auth/login' method='POST')
+        form#form(action='/signIn' method='POST')
           h1.login_h1 Sign In
           .form-floating
             input#login_id.form-control(type='text' name="username" placeholder='ID')
@@ -13,13 +13,14 @@ block content
           .form-floating
             input#login_pw.form-control(type='password' name="password" placeholder='Password')
             label(for='floatingPassword') Password
-          button#login_btn.btn.btn-dark(type='submit') Sign in
+          .form-floating
+              button#login_btn.btn.btn-dark(type='submit') Sign in
           input#login_auto(type='checkbox' name='auto_login' value='자동로그인') 
           label(for="auto_login") 자동로그인
           .find
-            a(href="#") 아이디 찾기
-            p |
+            a(href="#") 아이디 찾기 
+            a | 
             a(href="#") 비밀번호 찾기
           .signup
             p 아직 회원 가입을 안 했다면? 
-              a(href="#") 회원가입
+              a(href="/signUp") 회원가입

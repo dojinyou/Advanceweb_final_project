@@ -64,6 +64,9 @@ a {
 }
 
 /* side bar */
+aside.sidebar {
+  padding: 10px;
+}
 section.namespace {
   padding-top: 20px;
   display: flex;
