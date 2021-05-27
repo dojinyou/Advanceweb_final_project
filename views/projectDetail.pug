@@ -2,7 +2,7 @@ extends layout
 block link
 	link(rel='stylesheet' href="/stylesheets/project.css")
 block subTitle
-	h2 project명
+	h2=proj.PRO_TITLE
 block content
 	.project-info.project-wrapper
 		h5 프로젝트 정보
@@ -15,10 +15,10 @@ block content
 					th(scope='cols') 프로젝트 기간
 			tbody 
 				tr
-					td 내용
-					td 내용
-					td 내용
-					td 내용
+					td=proj.PRO_ID
+					td=proj.PRO_TITLE
+					td=proj.PRO_TYPE
+					td=`${proj.PRO_START_DATE} ~ ${proj.PRO_END_DATE}`
 			thead
 				tr
 					th(scope='cols') 주문ID
@@ -27,10 +27,10 @@ block content
 					th(scope='cols') 주문사항
 			tbody 
 				tr
-					td 내용
-					td 내용
-					td 내용
-					td 내용
+					td=order.ORDER_ID
+					td=order.customer.CUS_NAME
+					td=order.ORDER_DATE
+					td=order.ORDER_COMMENT
 	.project-plan.project-wrapper
 		h5 프로젝트 계획정보
 		table.project-table
@@ -42,12 +42,13 @@ block content
 					th(scope='cols') 의존 계획 ID
 					th(scope='cols') 계획 상태
 			tbody 
-				tr
-					td 내용
-					td 내용
-					td 내용
-					td 내용
-					td 내용
+				each plan in pPlans
+					tr
+						td=plan.PP_ID
+						td=plan.PLAN_TYPE
+						td=plan.PERIOD
+						td #{plan.DEPENDENCY ? plan.DEPENDENCY : "없음"}
+						td=plan.STATUS
 	.project-emp.project-wrapper
 		h5 프로젝트 참여인원
 		table.project-table
@@ -58,8 +59,12 @@ block content
 					th(scope='cols') 프로젝트 투입일
 					th(scope='cols') 프로젝트 투입 종료일
 			tbody 
-				tr
-					td 내용
-					td 내용
-					td 내용
-					td 내용
+				each emp in employees
+					tr
+						td=emp.EMP_ID
+						td=emp.role.ROLE_NAME
+						td=emp.EP_START_DATE
+						td=emp.EP_END_DATE
+	.eval_btn_wrapper
+		button(type="button" onclick=`location.href="/eval/result/${user.EMP_ID}"`).btn.btn-dark 내 평가 보러가기
+		button(type="button" onclick=`location.href="/eval/list/${proj.PRO_ID}"`).btn.btn-dark 동료 평가하기

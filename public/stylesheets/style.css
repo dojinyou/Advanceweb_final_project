@@ -9,6 +9,12 @@ a {
 }
 
 
+.logo_link {
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+}
+
 /* wrapper grid 설정*/
 
 .wrapper {
@@ -42,21 +48,23 @@ a {
   margin: 0;
   color: rgb(253,253,233);
 }
-.nav-sub-menu {
+.nav-sub-menu{
   height: 100%;
 }
-.nav-sub-menu>ul{
+.nav-sub-menu>ul, .subtitle>ul{
   height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
 }
-.nav-sub-menu>ul>li{
+.nav-sub-menu>ul>li, .subtitle>ul>li{
   list-style: none;
 }
-.nav-sub-menu>ul>li>a{
+.nav-sub-menu>ul>li>a {
   color: rgb(253,253,233);
+}
+.nav-sub-menu>ul>li>a, .subtitle>ul>li>a{
   min-width: 100px;
   min-height: 100px;
   font-size: large;
@@ -81,4 +89,12 @@ section.main-contents {
 
 header.subtitle {
   margin-bottom: 10px;
+}
+
+/* SUB TITLE */
+.subtitle {
+  width: 300px;
+}
+.subtitle>ul>li>a {
+  color: rgb(0,71,133);
 }

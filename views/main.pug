@@ -31,11 +31,13 @@ block content
                     th(scope='cols') 프로젝트 종류
                     th(scope='cols') 프로젝트 기간
             tbody 
-                tr
-                    td 내용
-                    td 내용
-                    td 내용
-                tr
-                    td 내용
-                    td 내용
-                    td 내용
+            each project_info in projs
+                tr(onclick=`location.href="/project/${project_info.project.PRO_ID}"`)
+                    td=project_info.project.PRO_TITLE
+                    td=project_info.project.PRO_TYPE
+                    td=`${project_info.project.PRO_START_DATE} ~ ${project_info.project.PRO_START_DATE}`
+            //- each project_info in projs
+            //-     tr(onclick=`location.href="/project/${project_info.dataValues.project.PRO_ID}"`)
+            //-         td=project_info.dataValues.project.PRO_TITLE
+            //-         td=project_info.dataValues.project.PRO_TYPE
+            //-         td=`${project_info.dataValues.project.PRO_START_DATE} ~ ${project_info.dataValues.project.PRO_START_DATE}`

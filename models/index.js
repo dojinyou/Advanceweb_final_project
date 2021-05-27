@@ -15,7 +15,7 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 const DataTypes = require('sequelize').DataTypes;
-const _carrer = require('./carrer');
+const _career = require('./career');
 const _cus_order = require('./cus_order');
 const _cus_proj_eval = require('./cus_proj_eval');
 const _customer = require('./customer');
@@ -31,7 +31,7 @@ const _project = require('./project');
 const _role = require('./role');
 const _skill = require('./skill');
 
-const carrer = _carrer(sequelize, DataTypes);
+const career = _career(sequelize, DataTypes);
 const cus_order = _cus_order(sequelize, DataTypes);
 const cus_proj_eval = _cus_proj_eval(sequelize, DataTypes);
 const customer = _customer(sequelize, DataTypes);
@@ -82,8 +82,8 @@ emp_proj.hasMany(emp_proj_eval, {
 	as: 'EVALUATOR_emp_proj_evals',
 	foreignKey: 'EVALUATOR',
 });
-carrer.belongsTo(employee, { as: 'EMP', foreignKey: 'EMP_ID' });
-employee.hasMany(carrer, { as: 'carrers', foreignKey: 'EMP_ID' });
+career.belongsTo(employee, { as: 'EMP', foreignKey: 'EMP_ID' });
+employee.hasMany(career, { as: 'careers', foreignKey: 'EMP_ID' });
 emp_pe.belongsTo(employee, { as: 'EMP', foreignKey: 'EMP_ID' });
 employee.hasMany(emp_pe, { as: 'emp_pes', foreignKey: 'EMP_ID' });
 emp_proj.belongsTo(employee, { as: 'EMP', foreignKey: 'EMP_ID' });
@@ -97,7 +97,7 @@ proj_plan.belongsTo(proj_plan, {
 	foreignKey: 'DEPENDENCY',
 });
 proj_plan.hasMany(proj_plan, { as: 'proj_plans', foreignKey: 'DEPENDENCY' });
-emp_proj.belongsTo(project, { as: 'PRO', foreignKey: 'PRO_ID' });
+emp_proj.belongsTo(project, { foreignKey: 'PRO_ID' });
 project.hasMany(emp_proj, { as: 'emp_projs', foreignKey: 'PRO_ID' });
 proj_plan.belongsTo(project, { as: 'PRO', foreignKey: 'PRO_ID' });
 project.hasMany(proj_plan, { as: 'proj_plans', foreignKey: 'PRO_ID' });
@@ -106,7 +106,7 @@ role.hasMany(emp_proj, { as: 'emp_projs', foreignKey: 'ROLE_ID' });
 emp_skill.belongsTo(skill, { as: 'SKILL', foreignKey: 'SKILL_ID' });
 skill.hasMany(emp_skill, { as: 'emp_skills', foreignKey: 'SKILL_ID' });
 
-db.carrer = carrer;
+db.career = career;
 db.cus_order = cus_order;
 db.cus_proj_eval = cus_proj_eval;
 db.customer = customer;

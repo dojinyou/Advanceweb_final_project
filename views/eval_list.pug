@@ -1,29 +1,20 @@
 extends layout
-
+block link
+    link(rel='stylesheet' href="/stylesheets/eval.css")
 block content
-    head 
-        title #{title}
-    body 
-        h1 #{title}
-        table(border='1')
-            tr 
-                td 평가 대상
-                td 부서명
-                td 직무명
-                td 프로젝트명
-            -for(var i = (page * page_num) - page_num; i < (page * page_num); i++)
-                -if(i > length)
-                    -break
-                -else
-                    -var data = rows[i]
-                    -var idx = data.idx
-                tr 
-                    td 
-                        a(href='/evaluate/eval/' + idx) #{data.name}
-                    td #{data.dept_name}
-                    td #{data.role_name}
-                    td #{data.proj_name}
-            tr 
-                td(colspan='4')
-                    -for(var j = 0; j < rows.length / page_num; j++)
-                        a(href='/evaluate/page/' + (j + 1)) [#{j + 1}]
+    .eval_head
+        h2=proj_name
+        h2 평가자 : #{user.EMP_NAME}
+    .cur-project.project-wrapper
+        table.project-table
+            thead
+                tr
+                    th(scope='cols') 이름
+                    th(scope='cols') 역할
+                    th(scope='cols') 프로젝트 참여기간
+            tbody 
+                each emp in employees
+                    tr(onclick=`location.href="/eval/?proj_id=${proj_id}&emp_id=${emp.EMP_ID}"`)
+                        td=emp.employee.EMP_NAME
+                        td=emp.role.ROLE_NAME
+                        td=`${emp.EP_START_DATE} ~ ${emp.EP_START_DATE}`

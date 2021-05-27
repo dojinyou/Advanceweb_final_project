@@ -31,3 +31,9 @@ table.project-table td {
 	display: flex;
 	justify-content: space-between;
 }
+
+.eval_head {
+	width: 90%;
+	display: flex;
+	justify-content: space-between;
+}

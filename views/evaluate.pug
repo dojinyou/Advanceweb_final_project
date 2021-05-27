@@ -1,21 +1,23 @@
 extends layout
-
+block link
+    link(rel='stylesheet' href="/stylesheets/project.css")
 block content
-    head 
-        title #{title}
-    body 
-        h1 #{title}
-        table
-            tr 
-                td 평가 대상
-                td #{row.name}
-                td 직무명
-                td #{row.role_name}
-            tr(colspan='4')
-                td 프로젝트명
-                td #{row.proj_name}
-        
-        form(action="/evaluate/write", method="post") 
+    h2 동료 평가
+    .cur-project.project-wrapper
+        table.project-table
+            thead
+                tr
+                    th 평가 대상
+                    th 직무명
+                    th 프로젝트명
+            tbody
+                tr
+                    td #{emp.EMP_NAME}
+                    td #{emp.role.ROLE_NAME}
+                    td #{proj.PRO_TITLE}
+
+        //- form(action=`/eval/write/?emp_id=${emp.EMP_ID}&proj_id=${proj.PRO_ID}&ep_id=${emp.emp_proj.EP_ID}`, method="post") 
+        form(action=`/eval/write/`, method="post") 
             h2 항목 1 업무수행 평가
             h4 업무 수행에 있어 능력이 뛰어나다.
             table(border='1')

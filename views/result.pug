@@ -1,0 +1,22 @@
+extends layout
+block link
+	link(rel='stylesheet' href="/stylesheets/project.css")
+block content
+	h2 내 평가보기
+	.cur-project.project-wrapper
+		table.project-table
+			thead
+				tr
+					th(scope='cols') 프로젝트명
+					th(scope='cols') 성과 점수
+					th(scope='cols') 성과 멘트
+					th(scope='cols') 소통 점수
+					th(scope='cols') 소통 멘트
+			tbody 
+				each emp_eval in emp_evals
+					tr
+						td=emp_eval.project.PRO_TITLE
+						td=emp_eval.emp_proj_eval.PE_SCORE
+						td=emp_eval.emp_proj_eval.PE_COMMENT
+						td=emp_eval.emp_proj_eval.COM_SCORE
+						td=emp_eval.emp_proj_eval.COM_COMMENT

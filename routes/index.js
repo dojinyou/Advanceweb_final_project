@@ -1,25 +1,73 @@
 const express = require('express');
 const router = express.Router();
-const { employee, project } = require('../models');
-// const mysql_odbc = require('../db/db_conn')();
-// const conn = mysql_odbc.init();
+const { employee, dept, emp_proj, project } = require('../models');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-	if (req.cookies['userID'] !== undefined) {
+	if (req.cookies['user'] !== undefined) {
 		res.redirect('/main');
 	} else {
 		res.redirect('/signIn');
 	}
 });
 
-router.get('/main', function (req, res, next) {
-	res.render('main');
+router.get('/main', async function (req, res, next) {
+	if (req.cookies['user'] !== undefined) {
+		console.log(req.cookies['projs']);
+		res.render('main', {
+			user: req.cookies['user'],
+			projs: req.cookies['projs'],
+		});
+	} else {
+		res.redirect('/signIn');
+	}
 });
 
 /* GET login page */
 router.get('/signIn', function (req, res, next) {
 	res.render('signIn');
+});
+router.post('/signIn', async function (req, res, next) {
+	const { userID, userPW } = req.body;
+	const result = await employee
+		.findOne({
+			where: {
+				EMP_WEB_ID: userID,
+			},
+		})
+		.then((employee) => {
+			return employee.dataValues;
+		});
+	if (result.EMP_WEB_PW == userPW) {
+		// 로그인 성공
+		const dept_name = await dept
+			.findOne({
+				where: {
+					DEPT_ID: result.DEPT_ID,
+				},
+			})
+			.then((dept) => {
+				return dept.dataValues.DEPT_NAME;
+			});
+		result.DEPT_NAME = dept_name;
+		const projs = await emp_proj.findAll({
+			include: [
+				{
+					model: project,
+				},
+			],
+			where: {
+				EMP_ID: result.EMP_ID,
+			},
+		});
+		console.log(projs);
+		res.cookie('user', result, { maxAge: 600000 });
+		res.cookie('projs', projs, { maxAge: 600000 });
+		res.redirect('/');
+	} else {
+		// 로그인 실패
+		res.redirect('/signIn');
+	}
 });
 
 router.get('/signUp', function (req, res, next) {
@@ -27,9 +75,6 @@ router.get('/signUp', function (req, res, next) {
 });
 router.post('/signUp', async function (req, res, next) {
 	try {
-		console.log(`web_id = ${req.body.username}`);
-		console.log(`web_pw = ${req.body.password}`);
-		console.log(`user_id = ${req.body.userID}`);
 		const result = await employee.update(
 			{
 				EMP_WEB_ID: req.body.username,
@@ -48,21 +93,5 @@ router.post('/signUp', async function (req, res, next) {
 		res.redirect('/signUp');
 	}
 });
-// router.get('/', function (req, res, next) {
-// 	const dept = 'DEPT1';
-// 	const name = '홍길동';
-// 	const sql1 = 'SELECT idx, title FROM notice;';
-// 	const sql2 = 'SELECT proj_id, proj_name, proj_start_date FROM project;';
-// 	conn.query(sql1 + sql2, function (err, rows) {
-// 		if (err) console.error('err: ' + err);
-// 		res.render('index', {
-// 			title: 'Prompt Solution',
-// 			dept: dept,
-// 			name: name,
-// 			rows1: rows[0],
-// 			rows2: rows[1],
-// 		});
-// 	});
-// });
 
 module.exports = router;

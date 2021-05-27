@@ -1,9 +1,8 @@
 extends layout
 block link
 	link(rel='stylesheet' href="/stylesheets/project.css")
-block subTitle
-	h2 진행중인 프로젝트
 block content
+	h2 진행중인 프로젝트
 	.cur-project.project-wrapper
 		table.project-table
 			thead
@@ -11,12 +10,9 @@ block content
 					th(scope='cols') 프로젝트명
 					th(scope='cols') 프로젝트 종류
 					th(scope='cols') 프로젝트 기간
-			tbody 
-				tr
-					td 내용
-					td 내용
-					td 내용
-				tr
-					td 내용
-					td 내용
-					td 내용
+			tbody
+				each project_info in projs
+						tr(onclick=`location.href="/project/${project_info.project.PRO_ID}"`)
+								td=project_info.project.PRO_TITLE
+								td=project_info.project.PRO_TYPE
+								td=`${project_info.project.PRO_START_DATE} ~ ${project_info.project.PRO_START_DATE}`
