@@ -41,12 +41,12 @@ router.get('/', async function (req, res, next) {
 			user: req.cookies['user'],
 			// proj: proj,
 			proj: {
-				PRO_TITLE: '테스트 프로젝트1',
+				PRO_TITLE: '안드로이드 앱 개발',
 				PRO_ID: 1,
 			},
 			// emp: emp,
 			emp: {
-				EMP_NAME: '김아무개',
+				EMP_NAME: '박선진',
 				EMP_ID: 2,
 				role: { ROLE_NAME: '개발자' },
 			},
@@ -119,20 +119,46 @@ router.get('/list/:projID', async function (req, res, next) {
 		// 	});
 		res.render('eval_list', {
 			user: req.cookies['user'],
-			proj_name: '테스트 프로젝트',
+			proj_name: '안드로이드 앱 개발',
 			// employees: emp_result,
 			employees: [
 				{
 					EP_ID: 1,
 					EMP_ID: 1,
 					PRO_ID: 1,
-					POLE_ID: 1,
-					EP_START_DATE: '2222.02.22',
-					PE_END_DATE: '3333.03.30',
-					employee: { EMP_NAME: '이호창' },
+					ROLE_ID: 1,
+					EP_START_DATE: '2021-01-01',
+					EP_END_DATE: '2022-01-01',
+					employee: { EMP_NAME: '안동언' },
 					role: {
 						ROLE_ID: 1,
-						ROLE_NAME: '간사',
+						ROLE_NAME: '개발자',
+					},
+				},
+				{
+					EP_ID: 2,
+					EMP_ID: 2,
+					PRO_ID: 1,
+					ROLE_ID: 1,
+					EP_START_DATE: '2021-03-01',
+					EP_END_DATE: '2022-01-01',
+					employee: { EMP_NAME: '박선진' },
+					role: {
+						ROLE_ID: 1,
+						ROLE_NAME: '개발자',
+					},
+				},
+				{
+					EP_ID: 3,
+					EMP_ID: 3,
+					PRO_ID: 1,
+					ROLE_ID: 1,
+					EP_START_DATE: '2021-03-01',
+					EP_END_DATE: '2021-07-01',
+					employee: { EMP_NAME: '조현아' },
+					role: {
+						ROLE_ID: 1,
+						ROLE_NAME: '개발자',
 					},
 				},
 			],
