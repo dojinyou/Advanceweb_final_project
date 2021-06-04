@@ -32,12 +32,19 @@ block content
                     th(scope='cols') 프로젝트 기간
             tbody 
             each project_info in projs
-                tr(onclick=`location.href="/project/${project_info.project.PRO_ID}"`)
-                    td=project_info.project.PRO_TITLE
-                    td=project_info.project.PRO_TYPE
-                    td=`${project_info.project.PRO_START_DATE} ~ ${project_info.project.PRO_START_DATE}`
+                tr(onclick=`location.href="/project/${project_info.PRO_ID}"`)
+                    td=project_info.PRO_TITLE
+                    td=project_info.PRO_TYPE
+                    td=`${project_info.PRO_START_DATE} ~ ${project_info.PRO_START_DATE}`
             //- each project_info in projs
             //-     tr(onclick=`location.href="/project/${project_info.dataValues.project.PRO_ID}"`)
             //-         td=project_info.dataValues.project.PRO_TITLE
             //-         td=project_info.dataValues.project.PRO_TYPE
             //-         td=`${project_info.dataValues.project.PRO_START_DATE} ~ ${project_info.dataValues.project.PRO_START_DATE}`
+    //- 임원일 경우에만 존재
+    //- if ()
+    .cur-project.project-wrapper
+        .table-title
+            h2 경영 관리
+        a(href='/empManage') 직원 인사 관리
+        a(href='/projManage') 프로젝트 경영 관리
