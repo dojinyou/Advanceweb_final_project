@@ -8,6 +8,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const projectRouter = require('./routes/project');
 const evalRouter = require('./routes/evaluate');
+const dataRouter = require('./routes/data');
 const sequelize = require('./models/index').sequelize;
 
 const app = express();
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/data', dataRouter);
 app.use('/users', usersRouter);
 app.use('/project', projectRouter);
 app.use('/eval', evalRouter);

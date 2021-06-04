@@ -60,7 +60,8 @@ router.post('/signIn', async function (req, res, next) {
 				EMP_ID: result.EMP_ID,
 			},
 		});
-		console.log(projs);
+
+		console.log(projs.dataValues);
 		res.cookie('user', result, { maxAge: 600000 });
 		res.cookie('projs', projs, { maxAge: 600000 });
 		res.redirect('/');

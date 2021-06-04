@@ -1,6 +1,7 @@
 extends layoutSign
 block link
   link(rel='stylesheet' href="/stylesheets/signIn.css")
+  script(src="/javascripts/signup.js") 
 block content 
   .sign-up
     .container
@@ -10,20 +11,19 @@ block content
           .form-floating
             input#sign-up_userId.form-control(type='text' name="userID" placeholder='userID')
             label(for='floatingInput') 사번
-            input(type="button", value="사번확인") 
+            input#userId_check(type="button", value="사번확인") 
           .form-floating
             input#sign-up_id.form-control(type='text' name="username" placeholder='ID')
             label(for='floatingInput') ID
-            input(type="button", value="ID 중복확인") 
+            input#webId_check(type="button", value="ID 중복확인") 
           .form-floating
             input#sign-up_pw.form-control(type='password' name="password" placeholder='Password')
+            i#icon_pw.fas.fa-eye.fa-4x
             label(for='floatingPassword') Password
           .form-floating
             input#sign-up_pw_check.form-control(type='password' name="passwordCheck" placeholder='PasswordCheck')
+            i#icon_pw_check.fas.fa-eye.fa-4x
             label(for='floatingPassword') PasswordCheck
-          .form-floating
-            input#sign-up_email.form-control(type='email' name="email" placeholder='email')
-            label(for='floatingPassword') email
           .form-floating
             button#sign-up_btn.btn.btn-dark(type='submit') Sign Up
             input#sign-up_cancel.form-control.btn.btn-danger(type='button' name="cancel" value='Cancel')
