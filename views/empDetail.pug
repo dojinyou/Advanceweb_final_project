@@ -1,0 +1,77 @@
+extends layout
+block link
+	link(rel='stylesheet' href="/stylesheets/project.css")
+block subTitle
+	h2=emp.EMP_NAME
+block content
+	.project-info.project-wrapper
+		h5 직원 정보
+		table.project-table
+			thead
+				tr
+					th(scope='cols') 직원ID
+					th(scope='cols') 직원명
+					th(scope='cols') 생년월일
+					th(scope='cols') 최종학력
+			tbody 
+				tr
+					td=emp.EMP_ID
+					td=emp.EMP_NAME
+					td=emp.EMP_BIRTH_DATE
+					td=emp.EMP_EDU
+			thead
+				tr
+					th(scope='cols') 부서명
+					th(scope='cols') 재직상태
+					th(scope='cols') 입사일
+					th(scope='cols') 퇴사일
+					th(scope='cols') 근속년수
+			tbody 
+				tr
+					td=emp.DEPT_NAME
+					td=emp.EMP_STATUS
+					td=emp.EMP_HIRE_DATE
+					td=emp.EMP_RETIRE_DATE
+					td=emp.EMP_WORK_YEAR
+	.project-plan.project-wrapper
+		h5 경력
+		table.project-table
+			thead
+				tr
+					th(scope='cols') 경력명
+					th(scope='cols') 경력 기간
+			tbody 
+				each career in careers
+					tr
+						td=career.CAREER_NAME
+						td=`${career.CAREER_FROM_DATE} ~ ${career.CAREER_TO_DATE}`
+	.project-plan.project-wrapper
+		h5 기술
+		table.project-table
+			thead
+				tr
+					th(scope='cols') 기술명
+					th(scope='cols') 기술 수준
+			tbody 
+				each skill in skills
+					tr
+						td=skill.SKILL_NAME
+						td=skill.SKILL_GRADE
+	.project-emp.project-wrapper
+		h5 프로젝트 목록
+		table.project-table
+			thead
+				tr
+					th(scope='cols') 프로젝트ID
+					th(scope='cols') 프로젝트명
+					th(scope='cols') 프로젝트 종류
+					th(scope='cols') 프로젝트 기간
+			tbody 
+				each project in projects
+					tr
+						td=project.PRO_ID
+						td=project.PRO_TITLE
+						td=project.PRO_TYPE
+						td=`${project.PRO_START_DATE} ~ ${project.PRO_END_DATE}`
+	.eval_btn_wrapper
+		button(type="button" onclick=`location.href="/empManage"`).btn.btn-dark 직원 목록

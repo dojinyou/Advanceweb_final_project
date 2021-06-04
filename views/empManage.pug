@@ -1,0 +1,25 @@
+extends layout
+block link
+    link(rel='stylesheet' href="/stylesheets/main.css")
+block content
+    .cur-project.project-wrapper
+        .table-title
+            h2 직원 정보
+        input(type="text", name="searchEmp" placeholder='직원명 입력')
+        button.btn 검색
+        table.project-table
+            thead
+                tr
+                    th(scope='cols') 직원명
+                    th(scope='cols') 생년월일
+                    th(scope='cols') 부서
+                    th(scope='cols') 재직상태
+            tbody 
+            each employee_info in emps
+                tr(onclick=`location.href="/empManage/${employee_info.EMP_ID}"`)
+                    td=employee_info.EMP_NAME
+                    td=employee_info.EMP_BIRTH_DATE
+                    td=employee_info.DEPT_NAME
+                    td=employee_info.EMP_STATUS
+    .eval_btn_wrapper
+        button(type="button" onclick=`location.href="/main"`).btn.btn-dark 메인 화면으로

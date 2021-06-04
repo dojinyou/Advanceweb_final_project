@@ -1,0 +1,27 @@
+extends layout
+block link
+    link(rel='stylesheet' href="/stylesheets/main.css")
+block content
+    .cur-project.project-wrapper
+        .table-title
+            h2 프로젝트 정보
+        input(type="text", name="searchProj" placeholder='프로젝트명 입력')
+        button.btn 검색
+        table.project-table
+            thead
+                tr
+                    th(scope='cols') 프로젝트명
+                    th(scope='cols') 프로젝트 종류
+                    th(scope='cols') PM 
+                    th(scope='cols') 투입 인원
+                    th(scope='cols') 프로젝트 기간
+            tbody 
+            each project_info in projs
+                tr(onclick=`location.href="/projManage/${project_info.PRO_ID}"`)
+                    td=project_info.PRO_TITLE
+                    td=project_info.PRO_TYPE
+                    td=project_info.PRO_PM
+                    td=project_info.PRO_NUM
+                    td=`${project_info.PRO_START_DATE} ~ ${project_info.PRO_START_DATE}`
+    .eval_btn_wrapper
+        button(type="button" onclick=`location.href="/main"`).btn.btn-dark 메인 화면으로

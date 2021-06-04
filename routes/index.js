@@ -4,23 +4,22 @@ const { employee, dept, emp_proj, project } = require('../models');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-	if (req.cookies['user'] !== undefined) {
-		res.redirect('/main');
-	} else {
-		res.redirect('/signIn');
-	}
+	res.redirect('/main');
 });
 
 router.get('/main', async function (req, res, next) {
-	if (req.cookies['user'] !== undefined) {
-		console.log(req.cookies['projs']);
-		res.render('main', {
-			user: req.cookies['user'],
-			projs: req.cookies['projs'],
-		});
-	} else {
-		res.redirect('/signIn');
-	}
+	res.render('main', {
+		user: {
+			DEPT_NAME: '개발',
+			EMP_NAME: '홍길동',
+		},
+		projs: {
+			PRO_ID: '1',
+			PRO_TITLE: 'TITLE',
+			PRO_TYPE: 'TYPE',
+			PRO_START_DATE: '1999-12-31',
+		}
+	});
 });
 
 /* GET login page */
@@ -60,8 +59,7 @@ router.post('/signIn', async function (req, res, next) {
 				EMP_ID: result.EMP_ID,
 			},
 		});
-
-		console.log(projs.dataValues);
+		console.log(projs);
 		res.cookie('user', result, { maxAge: 600000 });
 		res.cookie('projs', projs, { maxAge: 600000 });
 		res.redirect('/');

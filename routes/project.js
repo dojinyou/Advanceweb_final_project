@@ -31,7 +31,6 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/:projID', async function (req, res, next) {
-	if (req.cookies['user'] !== undefined) {
 		// const project_result = await project
 		// 	.findOne({
 		// 		where: {
@@ -60,7 +59,7 @@ router.get('/:projID', async function (req, res, next) {
 		// 	],
 		// 	where: { PRO_ID: project_result.PRO_ID },
 		// });
-		res.render('projectDetail', {
+		res.render('projDetail', {
 			user: req.cookies['user'],
 			// proj: project_result,
 			proj: {
@@ -155,9 +154,6 @@ router.get('/:projID', async function (req, res, next) {
 				},
 			],
 		});
-	} else {
-		res.redirect('/signIn');
-	}
 });
 
 module.exports = router;
