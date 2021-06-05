@@ -1,15 +1,29 @@
 h1,h2,h3,h4,h5,h6 {
   color: rgb(0,71,133);
 }
-a.btn.btn-secondary {
-	margin-right: 20px;
+
+table {
+	display: flex;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
-.project-wrapper {
+
+tbody {
+	display: flex;
+}
+
+th, td{
+	display: block;
+}
+
+.search-wrapper {
 	width: 1200px;
 	margin: 25px 0;
 }
 
-table.project-table {
+table.search-table {
 	width: 100%;
 	border-collapse: separate;
 	border-spacing: 1px;
@@ -17,35 +31,19 @@ table.project-table {
 	line-height: 1.5;
 }
 
-table.project-table th {
+table.search-table th {
 	font-weight: bold;
 	vertical-align: top;
 	background-color: #eee;
 	font-size: 1.2rem;
 }
-table.project-table td {
+table.search-table td {
 	border-bottom: 1px solid #ccc;
 	font-size: 1.2rem;
 }
 
-.search_manage {
-	width: 100%;
+.eval_btn_wrapper {
+	width: 95%;
 	display: flex;
 	justify-content: space-between;
-}
-
-#form_manage {
-	display: flex;
-	justify-content: space-evenly;
-	/* height: 50px; */
-}
-#form_manage select {
-	height: 40px;
-}
-#form_manage input {
-	height: 40px;
-}
-#form_manage button {
-	height: 40px;
-	width: 90px;
 }

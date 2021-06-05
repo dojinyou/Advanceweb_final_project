@@ -28,28 +28,23 @@ router.get('/signIn', function (req, res, next) {
 });
 router.post('/signIn', async function (req, res, next) {
 	const { userID, userPW } = req.body;
-	const result = await employee
-		.findOne({
-			where: {
-				EMP_WEB_ID: userID,
-			},
-		})
-		.then((employee) => {
-			return employee.dataValues;
-		});
+	const result = await employee.findOne({
+		raw: true,
+		where: {
+			EMP_WEB_ID: userID,
+		},
+	});
 	if (result.EMP_WEB_PW == userPW) {
 		// 로그인 성공
-		const dept_name = await dept
-			.findOne({
-				where: {
-					DEPT_ID: result.DEPT_ID,
-				},
-			})
-			.then((dept) => {
-				return dept.dataValues.DEPT_NAME;
-			});
+		const dept_name = await dept.findOne({
+			raw: true,
+			where: {
+				DEPT_ID: result.DEPT_ID,
+			},
+		});
 		result.DEPT_NAME = dept_name;
 		const projs = await emp_proj.findAll({
+			raw: true,
 			include: [
 				{
 					model: project,

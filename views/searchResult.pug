@@ -9,14 +9,27 @@ block content
 		table.search-table
 			thead
 				tr
-					th(scope='cols') 부서
-					th(scope='cols') 직급
 					th(scope='cols') 이름
-					th(scope='cols') 상세보기
-			tbody 
-				tr
-					td=search_result.DEPT.DEPT_NAME
-					td=search_result.EMP_RANK
-					td=search_result.EMP_NAME
-					td
-						a(href=`/search/result/${search_result.EMP_ID}` target='_blank')
+						a(href=`/search/result/EMP_NAME?dept_name=${dept_name}&emp_name=${emp_name}`)
+							if sortCondition == 'EMP_NAME'
+								i.fas.fa-long-arrow-alt-up
+							else 
+								i.fas.fa-long-arrow-alt-down
+					th(scope='cols') 직급
+						a(href=`/search/result/EMP_RANK?dept_name=${dept_name}&emp_name=${emp_name}`)
+							if sortCondition == 'EMP_RANK'
+								i.fas.fa-long-arrow-alt-up
+							else 
+								i.fas.fa-long-arrow-alt-down
+					th(scope='cols') 부서
+						a(href=`/search/result/DEPT_NAME?dept_name=${dept_name}&emp_name=${emp_name}`)
+							if sortCondition == 'DEPT_NAME'
+								i.fas.fa-long-arrow-alt-up
+							else 
+								i.fas.fa-long-arrow-alt-down
+			tbody
+				each info in search_result
+					tr
+						td=info.EMP_NAME
+						td=info.EMP_RANK
+						td=info.DEPT.DEPT_NAME

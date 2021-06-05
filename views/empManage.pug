@@ -1,25 +1,53 @@
 extends layout
 block link
-    link(rel='stylesheet' href="/stylesheets/main.css")
+  link(rel='stylesheet' href="/stylesheets/main.css")
+block subTitle
+  a.btn.btn-secondary(href='#') 직원 인사 관리
+  a.btn.btn-secondary(href='/manage/proj') 프로젝트 경영 관리
 block content
-    .cur-project.project-wrapper
-        .table-title
-            h2 직원 정보
-        input(type="text", name="searchEmp" placeholder='직원명 입력')
-        button.btn 검색
-        table.project-table
-            thead
-                tr
-                    th(scope='cols') 직원명
-                    th(scope='cols') 생년월일
-                    th(scope='cols') 부서
-                    th(scope='cols') 재직상태
-            tbody 
-            each employee_info in emps
-                tr(onclick=`location.href="/empManage/${employee_info.EMP_ID}"`)
-                    td=employee_info.EMP_NAME
-                    td=employee_info.EMP_BIRTH_DATE
-                    td=employee_info.DEPT_NAME
-                    td=employee_info.EMP_STATUS
-    .eval_btn_wrapper
-        button(type="button" onclick=`location.href="/main"`).btn.btn-dark 메인 화면으로
+  .cur-project.project-wrapper
+    section.search_manage
+      h2 직원 정보
+      form#form_manage(action='/manage/emp' method='get')
+        select#manage_dept_select(name="dept_name")
+          option(value="전체") 전체
+          option(value="경영진") 경영진
+          option(value="경영팀") 경영팀
+          option(value="개발팀") 개발팀
+          option(value="재무") 재무부서
+          option(value="인사") 인사부서
+          option(value="경영지원") 경영지원부서
+          option(value="기획") 기획부서
+          option(value="법무") 법무부서
+          option(value="마케팅") 마케팅부서
+          option(value="보안") 보안부서
+          option(value="디자인") 디자인부서
+          option(value="모바일") 모바일부서
+          option(value="프론트엔드") 프론트엔드부서
+          option(value="백엔드") 백엔드부서
+          option(value="데이터분석") 데이터분석부서
+          option(value="테스트") 테스트부서
+        input(type="search", name="emp_name" placeholder='직원명 입력')
+        button(type='submit')#manage_search_btn.btn.btn-primary 검색
+    table.project-table
+      thead
+        tr
+          th(scope='cols') 직원명
+          th(scope='cols') 부서
+          th(scope='cols') 프로젝트
+          th(scope='cols') 역할
+          th(scope='cols') 평가구분
+          th(scope='cols') 평가기록
+          th(scope='cols') 평가구분
+          th(scope='cols') 평가기록
+      tbody 
+        each employee_info in emps
+          tr(onclick=`location.href="/manage/emp/detail/${employee_info.EMP_ID}"`)
+            td=employee_info.EMP_NAME
+            td=employee_info.dept.DEPT_NAME
+            td=employee_info.PRO_TITLE
+            td=employee_info.ROLE_NAME
+            td 고객평가
+            td=employee_info.CUS_SCORE
+            td 동료평가
+            td=employee_info.EMP_SCORE

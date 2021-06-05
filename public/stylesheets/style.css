@@ -107,7 +107,7 @@ header.subtitle {
 
 /* SUB TITLE */
 .subtitle {
-  width: 300px;
+  width: 100%;
 }
 .subtitle>ul>li>a {
   color: rgb(0,71,133);
