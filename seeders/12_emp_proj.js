@@ -16,32 +16,32 @@ module.exports = {
 		const eProj_bulk = [
 			{
 				ep_id: 1,
-				emp_id: 10000099,
-				pro_id: 40000000,
-				role_id: 70000000,
+				emp_id: 99,
+				pro_id: 1,
+				role_id: 1,
 				ep_start_date: '1995-01-01',
 				ep_end_date: '1998-02-22',
 			},
 			{
 				ep_id: 2,
-				emp_id: 10000094,
-				pro_id: 40000000,
-				role_id: 70000001,
+				emp_id: 4,
+				pro_id: 1,
+				role_id: 2,
 				ep_start_date: '1995-01-01',
 				ep_end_date: '1998-02-22',
 			},
 			{
 				ep_id: 3,
-				emp_id: 10000088,
-				pro_id: 40000000,
-				role_id: 70000000,
+				emp_id: 88,
+				pro_id: 1,
+				role_id: 2,
 				ep_start_date: '1995-01-01',
 				ep_end_date: '1997-02-22',
 			},
 			{
 				ep_id: 4,
-				emp_id: 10000076,
-				pro_id: 40000000,
+				emp_id: 76,
+				pro_id: 1,
 				role_id: 70000002,
 				ep_start_date: '1995-01-01',
 				ep_end_date: '1997-02-22',
@@ -413,7 +413,7 @@ module.exports = {
 				role_id: 70000004,
 				ep_start_date: '2005-03-05',
 				ep_end_date: '2010-04-02',
-			}
+			},
 		];
 		await queryInterface.bulkInsert('emp_proj', eProj_bulk, {});
 	},

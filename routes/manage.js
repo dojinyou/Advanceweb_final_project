@@ -11,78 +11,124 @@ const {
 	career,
 	project,
 	emp_proj,
+	cus_proj_eval,
+	emp_proj_eval,
+	role,
 } = require('../models');
 
 router.get('/emp', async function (req, res, next) {
-	if (
-		req.cookies['user'] !== undefined &&
-		req.cookies['user'].DEPT_NAME == '경영진'
-	) {
-		const emp_name = req.query.emp_name;
-		const dept_name = req.query.dept_name;
-		let emp_data;
-		if (!emp_name) {
-			if (dept_name) {
-				emp_data = await employee.findAll({
-					raw: true,
-					incloude: [
-						{
-							attributes: ['DEPT_NAME'],
-							model: dept,
-							where: {
-								DEPT_NAME: dept_name,
-							},
-						},
-					],
-				});
-			} else {
-				emp_data = await employee.findAll({
-					rasw: true,
-					incloude: [
-						{
-							attributes: ['DEPT_NAME'],
-							model: dept,
-						},
-					],
-				});
-			}
-		} else {
-			if (dept_name) {
-				emp_data = await employee.findAll({
-					rasw: true,
-					incloude: [
-						{
-							attributes: ['DEPT_NAME'],
-							model: dept,
-							where: {
-								DEPT_NAME: dept_name,
-							},
-						},
-					],
-					where: {
-						EMP_NAME: emp_name,
-					},
-				});
-			} else {
-				emp_data = await employee.findAll({
-					rasw: true,
-					incloude: [
-						{
-							attributes: ['DEPT_NAME'],
-							model: dept,
-						},
-					],
-					where: {
-						EMP_NAME: emp_name,
-					},
-				});
-			}
-		}
-
-		res.render('empManage', emp_data);
-	} else {
-		res.redirect('/main'); // 임원이 아니면 메인 페이지로 이동
-	}
+	// if (
+	// 	req.cookies['user'] !== undefined &&
+	// 	req.cookies['user'].DEPT_NAME == '경영진'
+	// ) {
+	// 	const emp_name = req.query.emp_name;
+	// 	const dept_name = req.query.dept_name;
+	// 	let emp_data;
+	// 	if (!emp_name) {
+	// 		if (dept_name) {
+	// 			emp_data = await employee.findAll({
+	// 				raw: true,
+	// 				incloude: [
+	// 					{
+	// 						attributes: ['DEPT_NAME'],
+	// 						model: dept,
+	// 						where: {
+	// 							DEPT_NAME: dept_name,
+	// 						},
+	// 					},
+	// 				],
+	// 			});
+	// 		} else {
+	// 			emp_data = await employee.findAll({
+	// 				rasw: true,
+	// 				incloude: [
+	// 					{
+	// 						attributes: ['DEPT_NAME'],
+	// 						model: dept,
+	// 					},
+	// 				],
+	// 			});
+	// 		}
+	// 	} else {
+	// 		if (dept_name) {
+	// 			emp_data = await employee.findAll({
+	// 				rasw: true,
+	// 				incloude: [
+	// 					{
+	// 						attributes: ['DEPT_NAME'],
+	// 						model: dept,
+	// 						where: {
+	// 							DEPT_NAME: dept_name,
+	// 						},
+	// 					},
+	// 				],
+	// 				where: {
+	// 					EMP_NAME: emp_name,
+	// 				},
+	// 			});
+	// 		} else {
+	// 			emp_data = await employee.findAll({
+	// 				rasw: true,
+	// 				incloude: [
+	// 					{
+	// 						attributes: ['DEPT_NAME'],
+	// 						model: dept,
+	// 					},
+	// 				],
+	// 				where: {
+	// 					EMP_NAME: emp_name,
+	// 				},
+	// 			});
+	// 		}
+	// 	}
+	// 	for (const emp_info of emp_data) {
+	// 		const other_data = await emp_proj.findAll({
+	// 			raw: true,
+	// 			where: {
+	// 				EMP_ID: emp_info.EMP_ID,
+	// 			},
+	// 			incloude: [
+	// 				{
+	// 					attributes: ['PRO_TITLE'],
+	// 					model: project,
+	// 				},
+	// 				{
+	// 					attributes: ['ROLE_NAME'],
+	// 					model: role,
+	// 				},
+	// 				{
+	// 					attributes: [
+	// 						[sequelize.fn('AVG', sequelize.col('PE_SCORE')), 'AVG_EMP_PE'],
+	// 						[sequelize.fn('AVG', sequelize.col('COM_SCORE')), 'AVG_EMP_COM'],
+	// 					],
+	// 					model: emp_proj_eval,
+	// 				},
+	// 				{
+	// 					attributes: [
+	// 						[sequelize.fn('AVG', sequelize.col('PE_SCORE')), 'AVG_CUS_PE'],
+	// 						[sequelize.fn('AVG', sequelize.col('COM_SCORE')), 'AVG_CUS_COM'],
+	// 					],
+	// 					model: cus_proj_eval,
+	// 				},
+	// 			],
+	// 		});
+	// 		const data_array = [];
+	// 		for (const data of other_data) {
+	// 			data_array.push({
+	// 				PRO_TITLE: data.project.PRO_TITLE,
+	// 				ROLE_NAME: data.role.ROLE_NAME,
+	// 				CUS_SCORE:
+	// 					(data.cus_proj_eval.AVG_CUS_PE + data.cus_proj_eval.AVG_CUS_COM) /2,
+	// 				EMP_SCORE:
+	// 					(data.emp_proj_eval.AVG_EMP_PE + data.emp_proj_eval.AVG_EMP_COM) /2,
+	// 			});
+	// 		}
+	// 		emp_data.data = data_array;
+	// 	}
+	// 	res.render('empManage', emp_data);
+	// } else {
+	// 	res.redirect('/main'); // 임원이 아니면 메인 페이지로 이동
+	// }
 
 	res.render('empManage', {
 		emps: [
@@ -92,10 +138,12 @@ router.get('/emp', async function (req, res, next) {
 				dept: {
 					DEPT_NAME: '부서1',
 				},
-				ROLE_NAME: '개발자',
-				PRO_TITLE: '테스트프로젝트',
-				CUS_SCORE: 5.6,
-				EMP_SCORE: 7.8,
+				data: {
+					ROLE_NAME: '개발자',
+					PRO_TITLE: '테스트프로젝트',
+					CUS_SCORE: 5.6,
+					EMP_SCORE: 7.8,
+				},
 			},
 		],
 	});

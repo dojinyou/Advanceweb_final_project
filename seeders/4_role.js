@@ -15,13 +15,12 @@ module.exports = {
 		 */
 		const role_bulk = [
 			{
+				role_id: 1,
 				role_name: 'PM',
 			},
 			{
-				role_name: 'PL',
-			},
-			{
-				role_name: 'PE',
+				role_id: 2,
+				role_name: '개발자',
 			},
 		];
 		await queryInterface.bulkInsert('role', role_bulk, {});

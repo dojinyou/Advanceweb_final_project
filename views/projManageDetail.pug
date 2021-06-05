@@ -57,6 +57,7 @@ block content
 					th(scope='cols') 직원ID
 					th(scope='cols') 직무
 					th(scope='cols') 직급
+					th(scope='cols') 프로젝트 투입 시간
 					th(scope='cols') 프로젝트 투입일
 					th(scope='cols') 프로젝트 투입 종료일
 			tbody 
@@ -64,6 +65,7 @@ block content
 					tr
 						td=emp.EMP_ID
 						td=emp.role.ROLE_NAME
+						td=`${emp.EMP_RANK ? emp.EMP_RANK : '정보 없음'}`
 						td=`${emp.EMP_RANK ? emp.EMP_RANK : '정보 없음'}`
 						td=emp.EP_START_DATE
 						td=emp.EP_END_DATE

@@ -42,12 +42,13 @@ block content
           th(scope='cols') 평가기록
       tbody 
         each employee_info in emps
-          tr(onclick=`location.href="/manage/emp/detail/${employee_info.EMP_ID}"`)
+          //- tr(onclick=`location.href="/manage/emp/detail/${employee_info.EMP_ID}"`)
+          tr
             td=employee_info.EMP_NAME
             td=employee_info.dept.DEPT_NAME
-            td=employee_info.PRO_TITLE
-            td=employee_info.ROLE_NAME
+            td=employee_info.data.PRO_TITLE
+            td=employee_info.data.ROLE_NAME
             td 고객평가
-            td=employee_info.CUS_SCORE
+            td=employee_info.data.CUS_SCORE
             td 동료평가
-            td=employee_info.EMP_SCORE
+            td=employee_info.data.EMP_SCORE
