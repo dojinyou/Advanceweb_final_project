@@ -1,0 +1,33 @@
+h1,h2,h3,h4,h5,h6 {
+  color: rgb(0,71,133);
+}
+
+.search-wrapper {
+	width: 1200px;
+	margin: 25px 0;
+}
+
+table.search-table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 1px;
+	text-align: center;
+	line-height: 1.5;
+}
+
+table.search-table th {
+	font-weight: bold;
+	vertical-align: top;
+	background-color: #eee;
+	font-size: 1.2rem;
+}
+table.search-table td {
+	border-bottom: 1px solid #ccc;
+	font-size: 1.2rem;
+}
+
+.eval_btn_wrapper {
+	width: 95%;
+	display: flex;
+	justify-content: space-between;
+}

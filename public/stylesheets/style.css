@@ -82,6 +82,20 @@ section.namespace {
   align-items:flex-start;
 }
 
+section.search {
+  padding-top: 20px;
+}
+input[type='search'] {
+  width: 100%;
+  height: 40px;
+}
+#dept_select {
+  width: 100%;
+  height: 40px;
+}
+#search_btn{
+  width: 100%;
+}
 /* main contents */
 section.main-contents {
   padding: 20px;

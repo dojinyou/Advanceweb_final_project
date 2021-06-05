@@ -1,29 +1,37 @@
 const Sequelize = require('sequelize');
 module.exports = function (sequelize, DataTypes) {
 	return sequelize.define(
-		'customer',
+		'salary',
 		{
-			CUS_ID: {
+			SAL_ID: {
 				autoIncrement: true,
 				type: DataTypes.INTEGER,
 				allowNull: false,
 				primaryKey: true,
 			},
-			CUS_NAME: {
-				type: DataTypes.STRING(255),
+			SAL_RANK: {
+				type: DataTypes.STRING(20),
 				allowNull: false,
+			},
+			SAL_YEAR: {
+				type: DataTypes.INTEGER,
+				allowNull: true,
+			},
+			SALARY: {
+				type: DataTypes.INTEGER,
+				allowNull: true,
 			},
 		},
 		{
 			sequelize,
-			tableName: 'customer',
+			tableName: 'salary',
 			timestamps: false,
 			indexes: [
 				{
 					name: 'PRIMARY',
 					unique: true,
 					using: 'BTREE',
-					fields: [{ name: 'CUS_ID' }],
+					fields: [{ name: 'SAL_ID' }],
 				},
 			],
 		}

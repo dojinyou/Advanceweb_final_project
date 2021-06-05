@@ -1,6 +1,7 @@
 extends layoutSign
 block link
   link(rel='stylesheet' href="/stylesheets/signIn.css")
+  script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
   script(src="/javascripts/signup.js") 
 block content 
   .sign-up
@@ -26,4 +27,4 @@ block content
             label(for='floatingPassword') PasswordCheck
           .form-floating
             button#sign-up_btn.btn.btn-dark(type='submit') Sign Up
-            input#sign-up_cancel.form-control.btn.btn-danger(type='button' name="cancel" value='Cancel')
+            a(href='javascript:history.back();')#sign-up_cancel.btn.btn-danger Cancel

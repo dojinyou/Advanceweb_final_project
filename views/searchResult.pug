@@ -1,0 +1,22 @@
+extends layout
+block link
+	link(rel='stylesheet' href="/stylesheets/search.css")
+block subTitle
+	h2 검색결과
+block content
+	.search-info.search-wrapper
+		h5=`${dept_name ? dept_name : '전사'}의 ${emp_name ? emp_name : '모든'}직원에 대한 검색결과`
+		table.search-table
+			thead
+				tr
+					th(scope='cols') 부서
+					th(scope='cols') 직급
+					th(scope='cols') 이름
+					th(scope='cols') 상세보기
+			tbody 
+				tr
+					td=search_result.DEPT.DEPT_NAME
+					td=search_result.EMP_RANK
+					td=search_result.EMP_NAME
+					td
+						a(href=`/search/result/${search_result.EMP_ID}` target='_blank')

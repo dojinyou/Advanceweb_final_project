@@ -11,4 +11,12 @@
 }
 #sign-up_btn {
 	width: 100%;
+	height: 50px;
+}
+#sign-up_cancel {
+	width: 100%;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

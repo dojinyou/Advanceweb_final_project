@@ -16,7 +16,6 @@ db.Sequelize = Sequelize;
 
 const DataTypes = require('sequelize').DataTypes;
 const _career = require('./career');
-const _cus_order = require('./cus_order');
 const _cus_proj_eval = require('./cus_proj_eval');
 const _customer = require('./customer');
 const _dept = require('./dept');
@@ -29,10 +28,10 @@ const _manager = require('./manager');
 const _proj_plan = require('./proj_plan');
 const _project = require('./project');
 const _role = require('./role');
+const _salary = require('./salary');
 const _skill = require('./skill');
 
 const career = _career(sequelize, DataTypes);
-const cus_order = _cus_order(sequelize, DataTypes);
 const cus_proj_eval = _cus_proj_eval(sequelize, DataTypes);
 const customer = _customer(sequelize, DataTypes);
 const dept = _dept(sequelize, DataTypes);
@@ -45,6 +44,7 @@ const manager = _manager(sequelize, DataTypes);
 const proj_plan = _proj_plan(sequelize, DataTypes);
 const project = _project(sequelize, DataTypes);
 const role = _role(sequelize, DataTypes);
+const salary = _salary(sequelize, DataTypes);
 const skill = _skill(sequelize, DataTypes);
 
 employee.belongsToMany(skill, {
@@ -59,17 +59,20 @@ skill.belongsToMany(employee, {
 	foreignKey: 'SKILL_ID',
 	otherKey: 'EMP_ID',
 });
-cus_proj_eval.belongsTo(cus_order, { as: 'ORDER', foreignKey: 'ORDER_ID' });
-cus_order.hasMany(cus_proj_eval, {
+cus_proj_eval.belongsTo(customer, { as: 'CUSTOMER', foreignKey: 'CUS_ID' });
+customer.hasMany(cus_proj_eval, {
 	as: 'cus_proj_evals',
-	foreignKey: 'ORDER_ID',
+	foreignKey: 'CUS_ID',
 });
-project.belongsTo(cus_order, { as: 'ORDER', foreignKey: 'ORDER_ID' });
-cus_order.hasMany(project, { as: 'projects', foreignKey: 'ORDER_ID' });
-cus_order.belongsTo(customer, { as: 'CU', foreignKey: 'CUS_ID' });
-customer.hasMany(cus_order, { as: 'cus_orders', foreignKey: 'CUS_ID' });
+project.belongsTo(customer, { as: 'CUSTOMER', foreignKey: 'CUS_ID' });
+customer.hasMany(project, { as: 'projects', foreignKey: 'CUS_ID' });
 employee.belongsTo(dept, { as: 'DEPT', foreignKey: 'DEPT_ID' });
 dept.hasMany(employee, { as: 'employees', foreignKey: 'DEPT_ID' });
+dept.belongsTo(dept, {
+	as: 'UPPER_dept',
+	foreignKey: 'DEPT_UPPER',
+});
+dept.hasMany(dept, { as: 'dept', foreignKey: 'DEPT_UPPER' });
 cus_proj_eval.belongsTo(emp_proj, { as: 'EP', foreignKey: 'EP_ID' });
 emp_proj.hasMany(cus_proj_eval, { as: 'cus_proj_evals', foreignKey: 'EP_ID' });
 emp_proj_eval.belongsTo(emp_proj, { as: 'EP', foreignKey: 'EP_ID' });
@@ -103,11 +106,12 @@ proj_plan.belongsTo(project, { as: 'PRO', foreignKey: 'PRO_ID' });
 project.hasMany(proj_plan, { as: 'proj_plans', foreignKey: 'PRO_ID' });
 emp_proj.belongsTo(role, { as: 'ROLE', foreignKey: 'ROLE_ID' });
 role.hasMany(emp_proj, { as: 'emp_projs', foreignKey: 'ROLE_ID' });
+employee.belongsTo(salary, { as: 'SALARAY', foreignKey: 'SAL_ID' });
+salary.hasMany(employee, { as: 'employees', foreignKey: 'SAL_ID' });
 emp_skill.belongsTo(skill, { as: 'SKILL', foreignKey: 'SKILL_ID' });
 skill.hasMany(emp_skill, { as: 'emp_skills', foreignKey: 'SKILL_ID' });
 
 db.career = career;
-db.cus_order = cus_order;
 db.cus_proj_eval = cus_proj_eval;
 db.customer = customer;
 db.dept = dept;
@@ -120,6 +124,7 @@ db.manager = manager;
 db.proj_plan = proj_plan;
 db.project = project;
 db.role = role;
+db.salary = salary;
 db.skill = skill;
 
 module.exports = db;

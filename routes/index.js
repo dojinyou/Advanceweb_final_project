@@ -18,7 +18,7 @@ router.get('/main', async function (req, res, next) {
 			PRO_TITLE: 'TITLE',
 			PRO_TYPE: 'TYPE',
 			PRO_START_DATE: '1999-12-31',
-		}
+		},
 	});
 });
 
@@ -85,7 +85,6 @@ router.post('/signUp', async function (req, res, next) {
 				},
 			}
 		);
-		console.log(result);
 		res.redirect('/signIn');
 	} catch (err) {
 		console.error(err);
