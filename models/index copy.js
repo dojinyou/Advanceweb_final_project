@@ -48,61 +48,68 @@ const salary = _salary(sequelize, DataTypes);
 const skill = _skill(sequelize, DataTypes);
 
 employee.belongsToMany(skill, {
+	as: 'SKILL_ID_skills',
 	through: emp_skill,
 	foreignKey: 'EMP_ID',
 	otherKey: 'SKILL_ID',
 });
 skill.belongsToMany(employee, {
+	as: 'EMP_ID_employees',
 	through: emp_skill,
 	foreignKey: 'SKILL_ID',
 	otherKey: 'EMP_ID',
 });
-cus_proj_eval.belongsTo(customer, { foreignKey: 'CUS_ID' });
+cus_proj_eval.belongsTo(customer, { as: 'CUSTOMER', foreignKey: 'CUS_ID' });
 customer.hasMany(cus_proj_eval, {
+	as: 'cus_proj_evals',
 	foreignKey: 'CUS_ID',
 });
-project.belongsTo(customer, { foreignKey: 'CUS_ID' });
-customer.hasMany(project, { foreignKey: 'CUS_ID' });
-employee.belongsTo(dept, { foreignKey: 'DEPT_ID' });
-dept.hasMany(employee, { foreignKey: 'DEPT_ID' });
+project.belongsTo(customer, { as: 'customer', foreignKey: 'CUS_ID' });
+customer.hasMany(project, { as: 'project', foreignKey: 'CUS_ID' });
+employee.belongsTo(dept, { as: 'dept', foreignKey: 'DEPT_ID' });
+dept.hasMany(employee, { as: 'employee', foreignKey: 'DEPT_ID' });
 dept.belongsTo(dept, {
+	as: 'UPPER_dept',
 	foreignKey: 'DEPT_UPPER',
 });
-dept.hasMany(dept, { foreignKey: 'DEPT_UPPER' });
-cus_proj_eval.belongsTo(emp_proj, { foreignKey: 'EP_ID' });
-emp_proj.hasMany(cus_proj_eval, { foreignKey: 'EP_ID' });
-emp_proj_eval.belongsTo(emp_proj, { foreignKey: 'EP_ID' });
-emp_proj.hasMany(emp_proj_eval, { foreignKey: 'EP_ID' });
+dept.hasMany(dept, { as: 'dept', foreignKey: 'DEPT_UPPER' });
+cus_proj_eval.belongsTo(emp_proj, { as: 'EP', foreignKey: 'EP_ID' });
+emp_proj.hasMany(cus_proj_eval, { as: 'cus_proj_evals', foreignKey: 'EP_ID' });
+emp_proj_eval.belongsTo(emp_proj, { as: 'EP', foreignKey: 'EP_ID' });
+emp_proj.hasMany(emp_proj_eval, { as: 'emp_proj_evals', foreignKey: 'EP_ID' });
 emp_proj_eval.belongsTo(emp_proj, {
+	as: 'EVALUATOR_emp_proj',
 	foreignKey: 'EVALUATOR',
 });
 emp_proj.hasMany(emp_proj_eval, {
+	as: 'EVALUATOR_emp_proj_evals',
 	foreignKey: 'EVALUATOR',
 });
-career.belongsTo(employee, { foreignKey: 'EMP_ID' });
-employee.hasMany(career, { foreignKey: 'EMP_ID' });
-emp_pe.belongsTo(employee, { foreignKey: 'EMP_ID' });
-employee.hasMany(emp_pe, { foreignKey: 'EMP_ID' });
-emp_proj.belongsTo(employee, { foreignKey: 'EMP_ID' });
-employee.hasMany(emp_proj, { foreignKey: 'EMP_ID' });
-emp_skill.belongsTo(employee, { foreignKey: 'EMP_ID' });
-employee.hasMany(emp_skill, { foreignKey: 'EMP_ID' });
-manager.belongsTo(employee, { foreignKey: 'EMP_ID' });
-employee.hasOne(manager, { foreignKey: 'EMP_ID' });
+career.belongsTo(employee, { as: 'EMP', foreignKey: 'EMP_ID' });
+employee.hasMany(career, { as: 'careers', foreignKey: 'EMP_ID' });
+emp_pe.belongsTo(employee, { as: 'EMP', foreignKey: 'EMP_ID' });
+employee.hasMany(emp_pe, { as: 'emp_pes', foreignKey: 'EMP_ID' });
+emp_proj.belongsTo(employee, { as: 'EMP', foreignKey: 'EMP_ID' });
+employee.hasMany(emp_proj, { as: 'emp_projs', foreignKey: 'EMP_ID' });
+emp_skill.belongsTo(employee, { as: 'EMP', foreignKey: 'EMP_ID' });
+employee.hasMany(emp_skill, { as: 'emp_skills', foreignKey: 'EMP_ID' });
+manager.belongsTo(employee, { as: 'EMP', foreignKey: 'EMP_ID' });
+employee.hasOne(manager, { as: 'manager', foreignKey: 'EMP_ID' });
 proj_plan.belongsTo(proj_plan, {
+	as: 'DEPENDENCY_proj_plan',
 	foreignKey: 'DEPENDENCY',
 });
-proj_plan.hasMany(proj_plan, { foreignKey: 'DEPENDENCY' });
+proj_plan.hasMany(proj_plan, { as: 'proj_plans', foreignKey: 'DEPENDENCY' });
 emp_proj.belongsTo(project, { foreignKey: 'PRO_ID' });
-project.hasMany(emp_proj, { foreignKey: 'PRO_ID' });
-proj_plan.belongsTo(project, { foreignKey: 'PRO_ID' });
-project.hasMany(proj_plan, { foreignKey: 'PRO_ID' });
-emp_proj.belongsTo(role, { foreignKey: 'ROLE_ID' });
-role.hasMany(emp_proj, { foreignKey: 'ROLE_ID' });
-employee.belongsTo(salary, { foreignKey: 'SAL_ID' });
-salary.hasMany(employee, { foreignKey: 'SAL_ID' });
-emp_skill.belongsTo(skill, { foreignKey: 'SKILL_ID' });
-skill.hasMany(emp_skill, { foreignKey: 'SKILL_ID' });
+project.hasMany(emp_proj, { as: 'emp_projs', foreignKey: 'PRO_ID' });
+proj_plan.belongsTo(project, { as: 'PRO', foreignKey: 'PRO_ID' });
+project.hasMany(proj_plan, { as: 'proj_plans', foreignKey: 'PRO_ID' });
+emp_proj.belongsTo(role, { as: 'ROLE', foreignKey: 'ROLE_ID' });
+role.hasMany(emp_proj, { as: 'emp_projs', foreignKey: 'ROLE_ID' });
+employee.belongsTo(salary, { as: 'SALARAY', foreignKey: 'SAL_ID' });
+salary.hasMany(employee, { as: 'employees', foreignKey: 'SAL_ID' });
+emp_skill.belongsTo(skill, { as: 'SKILL', foreignKey: 'SKILL_ID' });
+skill.hasMany(emp_skill, { as: 'emp_skills', foreignKey: 'SKILL_ID' });
 
 db.career = career;
 db.cus_proj_eval = cus_proj_eval;

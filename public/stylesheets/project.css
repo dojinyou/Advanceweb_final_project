@@ -31,3 +31,8 @@ table.project-table td {
 	display: flex;
 	justify-content: space-between;
 }
+
+.mark {
+	background-color: rgb(0,71,133);
+	color: white;
+}

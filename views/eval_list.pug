@@ -1,20 +1,21 @@
 extends layout
 block link
-    link(rel='stylesheet' href="/stylesheets/eval.css")
+  link(rel='stylesheet' href="/stylesheets/eval.css")
 block content
-    .eval_head
-        h2=proj_name
-        h2 평가자 : #{user.EMP_NAME}
-    .cur-project.project-wrapper
-        table.project-table
-            thead
-                tr
-                    th(scope='cols') 이름
-                    th(scope='cols') 역할
-                    th(scope='cols') 프로젝트 참여기간
-            tbody 
-                each emp in employees
-                    tr(onclick=`location.href="/eval/?proj_id=${proj_id}&emp_id=${emp.EMP_ID}"`)
-                        td=emp.employee.EMP_NAME
-                        td=emp.role.ROLE_NAME
-                        td=`${emp.EP_START_DATE} ~ ${emp.EP_START_DATE}`
+  .eval_head
+    h2=proj_name
+    h2 평가자 : #{user.EMP_NAME}
+  .cur-project.project-wrapper
+    table.project-table
+      thead
+        tr
+          th(scope='cols') 이름
+          th(scope='cols') 역할
+          th(scope='cols') 프로젝트 참여기간
+      tbody 
+        each emp in employees
+          if emp['employee.EMP_NAME'] != user.EMP_NAME
+            tr(onclick=`location.href="/eval/?ep_id=${emp.EP_ID}&emp_id=${emp.EMP_ID}"`)
+                td=emp['employee.EMP_NAME']
+                td=emp['role.ROLE_NAME']
+                td=`${emp.EP_START_DATE} ~ ${emp.EP_END_DATE}`

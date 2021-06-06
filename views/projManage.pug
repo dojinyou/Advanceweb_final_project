@@ -16,14 +16,18 @@ block content
         tr
           th(scope='cols') 프로젝트명
           th(scope='cols') 프로젝트 종류
+          th(scope='cols') 계약금
           th(scope='cols') 투입 인원
           th(scope='cols') 투입 시간
           th(scope='cols') 프로젝트 기간
       tbody 
-        each project_info in projs
-          tr(onclick=`location.href="/manage/proj/detail/${project_info.PRO_ID}"`)
-            td=project_info.PRO_TITLE
-            td=project_info.PRO_TYPE
-            td=project_info.PRO_NUM
-            td=project_info.SUM_WORKING_HOUR
-            td=`${project_info.PRO_START_DATE} ~ ${project_info.PRO_START_DATE}`
+        each result in results
+          tr(onclick=`location.href="/manage/proj/detail/${result.proj.PRO_ID}"`)
+            td=result.proj.PRO_TITLE
+            td=result.proj.PRO_TYPE
+            - var overInt = parseInt(result.proj.CONTRACT_AMOUNT/1000)
+            - overInt = overInt != 0 ? `${overInt},` : ''
+            td=`${overInt}${result.proj.CONTRACT_AMOUNT%1000},000,000원`
+            td=result.NUM_EMP
+            td=result.TOTAL_TIME
+            td=`${result.proj.PRO_CONTACT_DATE} ~ ${result.proj.PRO_END_DATE}`

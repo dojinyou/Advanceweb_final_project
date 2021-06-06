@@ -1,6 +1,7 @@
 extends layout
 block link
   link(rel='stylesheet' href="/stylesheets/main.css")
+  link(rel='stylesheet' href="/stylesheets/search.css")
 block subTitle
   a.btn.btn-secondary(href='#') 직원 인사 관리
   a.btn.btn-secondary(href='/manage/proj') 프로젝트 경영 관리
@@ -8,7 +9,7 @@ block content
   .cur-project.project-wrapper
     section.search_manage
       h2 직원 정보
-      form#form_manage(action='/manage/emp' method='get')
+      form#form_manage(action='/manage/emp/EMP_NAME' method='get')
         select#manage_dept_select(name="dept_name")
           option(value="전체") 전체
           option(value="경영진") 경영진
@@ -29,26 +30,54 @@ block content
           option(value="테스트") 테스트부서
         input(type="search", name="emp_name" placeholder='직원명 입력')
         button(type='submit')#manage_search_btn.btn.btn-primary 검색
-    table.project-table
+  .search-info.search-wrapper
+    table.search-table 
       thead
         tr
-          th(scope='cols') 직원명
+          th(scope='cols') 이름
+            a(href=`/manage/emp/EMP_NAME?dept_name=${dept_name}&emp_name=${emp_name}`)
+              if sortCondition == 'EMP_NAME'
+                i.fas.fa-long-arrow-alt-up
+              else 
+                i.fas.fa-long-arrow-alt-down
+          th(scope='cols') 직급
+            a(href=`/manage/emp/EMP_RANK?dept_name=${dept_name}&emp_name=${emp_name}`)
+              if sortCondition == 'EMP_RANK'
+                i.fas.fa-long-arrow-alt-up
+              else 
+                i.fas.fa-long-arrow-alt-down
           th(scope='cols') 부서
-          th(scope='cols') 프로젝트
-          th(scope='cols') 역할
-          th(scope='cols') 평가구분
-          th(scope='cols') 평가기록
-          th(scope='cols') 평가구분
-          th(scope='cols') 평가기록
-      tbody 
-        each employee_info in emps
-          //- tr(onclick=`location.href="/manage/emp/detail/${employee_info.EMP_ID}"`)
+            a(href=`/manage/emp/DEPT_NAME?dept_name=${dept_name}&emp_name=${emp_name}`)
+              if sortCondition == 'DEPT_NAME'
+                i.fas.fa-long-arrow-alt-up
+              else 
+                i.fas.fa-long-arrow-alt-down
+      tbody
+        each info in search_result
           tr
-            td=employee_info.EMP_NAME
-            td=employee_info.dept.DEPT_NAME
-            td=employee_info.data.PRO_TITLE
-            td=employee_info.data.ROLE_NAME
-            td 고객평가
-            td=employee_info.data.CUS_SCORE
-            td 동료평가
-            td=employee_info.data.EMP_SCORE
+            td=info.EMP_NAME
+            td=info.EMP_RANK
+            td=info['dept.DEPT_NAME']
+    //- table.project-table
+    //-   thead
+    //-     tr
+    //-       th(scope='cols') 직원명
+    //-       th(scope='cols') 부서
+    //-       th(scope='cols') 프로젝트
+    //-       th(scope='cols') 역할
+    //-       th(scope='cols') 평가구분
+    //-       th(scope='cols') 평가기록
+    //-       th(scope='cols') 평가구분
+    //-       th(scope='cols') 평가기록
+    //-   tbody 
+    //-     each employee_info in emps
+    //-       //- tr(onclick=`location.href="/manage/emp/detail/${employee_info.EMP_ID}"`)
+    //-       tr
+    //-         td=employee_info.EMP_NAME
+    //-         td=employee_info.dept.DEPT_NAME
+    //-         td=employee_info.data.PRO_TITLE
+    //-         td=employee_info.data.ROLE_NAME
+    //-         td 고객평가
+    //-         td=employee_info.data.CUS_SCORE
+    //-         td 동료평가
+    //-         td=employee_info.data.EMP_SCORE

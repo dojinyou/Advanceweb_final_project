@@ -3,7 +3,7 @@ var router = express.Router();
 const {
 	role,
 	project,
-	cus_order,
+	employee,
 	customer,
 	proj_plan,
 	emp_proj,
@@ -15,15 +15,6 @@ router.get('/', function (req, res, next) {
 		res.render('project', {
 			user: req.cookies['user'],
 			projs: req.cookies['projs'],
-			// projs: [
-			// 	{
-			// 		PRO_ID: 1,
-			// 		PRO_TITLE: '테스트 이름',
-			// 		PRO_TYPE: '테스트 종류',
-			// 		PRO_START_DATE: '2222.02.22',
-			// 		PRO_START_DATE: '3333.03.30',
-			// 	},
-			// ],
 		});
 	} else {
 		res.redirect('/signIn');
@@ -31,129 +22,38 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/:projID', async function (req, res, next) {
-		// const project_result = await project
-		// 	.findOne({
-		// 		where: {
-		// 			PRO_ID: req.params.projID,
-		// 		},
-		// 	})
-		// 	.then((result) => {
-		// 		return result.dataValues;
-		// 	});
-		// const order_result = await cus_order.findAll({
-		// 	include: [
-		// 		{
-		// 			model: customer,
-		// 		},
-		// 	],
-		// 	where: { ORDER_ID: project_result.ORDER_ID },
-		// });
-		// const pPlan_result = await proj_plan.findAll({
-		// 	where: { PRO_ID: project_result.PRO_ID },
-		// });
-		// const proj_emp_result = await emp_proj.findAll({
-		// 	include: [
-		// 		{
-		// 			model: role,
-		// 		},
-		// 	],
-		// 	where: { PRO_ID: project_result.PRO_ID },
-		// });
-		res.render('projDetail', {
-			user: req.cookies['user'],
-			// proj: project_result,
-			proj: {
-				PRO_ID: 1,
-				ORDER_ID: 1,
-				PRO_TITLE: '안드로이드 앱 개발',
-				PRO_TYPE: 'android',
-				PRO_START_DATE: '2021-01-01',
-				PRO_END_DATE: '2022-01-01',
+	const project_result = await project.findOne({
+		raw: true,
+		where: {
+			PRO_ID: req.params.projID,
+		},
+	});
+	const cus_result = await customer.findOne({
+		where: { CUS_ID: project_result.CUS_ID },
+	});
+	const pPlan_result = await proj_plan.findAll({
+		raw: true,
+		where: { PRO_ID: project_result.PRO_ID },
+	});
+	const proj_emp_result = await emp_proj.findAll({
+		raw: true,
+		include: [
+			{
+				model: role,
 			},
-			// order: order_result,
-			order: {
-				ORDER_ID: 1,
-				CUS_ID: 1,
-				ORDER_DATE: '2021.01.01',
-				ORDER_COMMENT: '이렇게 하시면 아주 큰일납니다.',
-				customer: {
-					CUS_ID: 1,
-					CUS_NAME: '전종훈',
-				},
+			{
+				model: employee,
 			},
-			// pPlans: pPlan_result,
-			pPlans: [
-				{
-					PP_ID: 1,
-					PRO_ID: 1,
-					PLAN_TYPE: '프로젝트 설계',
-					START_DATE: '2021-03-01',
-					END_DATE: '2021-06-30',
-					PERIOD: '3개월',
-					DEPENDENCY: null,
-					STATUS: '진행중',
-				},
-				{
-					PP_ID: 2,
-					PRO_ID: 1,
-					PLAN_TYPE: '프로젝트 개발',
-					START_DATE: '2021-07-01',
-					END_DATE: '2022-02-15',
-					PERIOD: '8개월',
-					DEPENDENCY: null,
-					STATUS: '시작 전',
-				},
-				{
-					PP_ID: 3,
-					PRO_ID: 1,
-					PLAN_TYPE: '프로젝트 테스트',
-					START_DATE: '2022-02-16',
-					END_DATE: '2022-05-01',
-					PERIOD: '3개월',
-					DEPENDENCY: '프로젝트 개발',
-					STATUS: '시작 전',
-				},
-			],
-			// employees: proj_emp_result,
-			employees: [
-				{
-					EP_ID: 1,
-					EMP_ID: 1,
-					PRO_ID: 1,
-					ROLE_ID: 1,
-					EP_START_DATE: '2021-01-01',
-					EP_END_DATE: '2022-01-01',
-					role: {
-						ROLE_ID: 1,
-						ROLE_NAME: '개발자',
-					},
-				},
-				{
-					EP_ID: 2,
-					EMP_ID: 2,
-					PRO_ID: 1,
-					ROLE_ID: 1,
-					EP_START_DATE: '2021-03-01',
-					EP_END_DATE: '2022-01-01',
-					role: {
-						ROLE_ID: 1,
-						ROLE_NAME: '개발자',
-					},
-				},
-				{
-					EP_ID: 3,
-					EMP_ID: 3,
-					PRO_ID: 1,
-					ROLE_ID: 1,
-					EP_START_DATE: '2021-03-01',
-					EP_END_DATE: '2021-07-01',
-					role: {
-						ROLE_ID: 1,
-						ROLE_NAME: '개발자',
-					},
-				},
-			],
-		});
+		],
+		where: { PRO_ID: project_result.PRO_ID },
+	});
+	res.render('projectDetail', {
+		user: req.cookies['user'],
+		proj: project_result,
+		cus: cus_result,
+		pPlans: pPlan_result,
+		employees: proj_emp_result,
+	});
 });
 
 module.exports = router;

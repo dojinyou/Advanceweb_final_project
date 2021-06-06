@@ -6,50 +6,35 @@ const {
 	employee,
 	emp_proj,
 	emp_proj_eval,
+	cus_proj_eval,
+	sequelize,
+	Sequelize,
 } = require('../models');
 
 router.get('/', async function (req, res, next) {
 	if (req.cookies['user'] !== undefined) {
-		// emp_id=req.query.emp_id,
-		// proj_id=req.query.proj_id,
-		// const proj = await project
-		// 	.findOne({
-		// 		where: { PRO_ID: req.query.proj_id },
-		// 	})
-		// 	.then((result) => {
-		// 		return result.dataValues;
-		// 	});
-		// const emp = await employee
-		// 	.findOne({
-		// 		include: [
-		// 			{
-		// 				model: emp_proj,
-		// 				atrributes: [ROLE_ID],
-		// 				include: [
-		// 					{
-		// 						model: role,
-		// 					},
-		// 				],
-		// 			},
-		// 		],
-		// 		where: { EMP_ID: req.query.emp_id },
-		// 	})
-		// 	.then((result) => {
-		// 		return result.dataValues;
-		// 	});
+		const ep_id = req.query.ep_id;
+		const emp_id = req.query.emp_id;
+		const ep_result = await emp_proj.findOne({
+			raw: true,
+			include: [
+				{
+					model: role,
+					atrributes: ['ROLE_NAME'],
+				},
+				{
+					model: project,
+					atrributes: ['PRO_TITLE'],
+				},
+			],
+			where: { EP_ID: ep_id },
+		});
+		console.log(ep_result);
 		res.render('evaluate', {
 			user: req.cookies['user'],
-			// proj: proj,
-			proj: {
-				PRO_TITLE: '안드로이드 앱 개발',
-				PRO_ID: 1,
-			},
-			// emp: emp,
-			emp: {
-				EMP_NAME: '박선진',
-				EMP_ID: 2,
-				role: { ROLE_NAME: '개발자' },
-			},
+			ep_id: ep_id,
+			emp_id: emp_id,
+			ep_result: ep_result,
 		});
 	} else {
 		res.redirect('/signIn');
@@ -57,9 +42,8 @@ router.get('/', async function (req, res, next) {
 });
 router.post('/write', async function (req, res, next) {
 	if (req.cookies['user'] !== undefined) {
-		const new_data = await emp_proj_eval.create({
+		const new_data = await emp_proj_eval.update({
 			EVALUATOR: req.cookies['user'].EMP_ID,
-			EP_ID: req.query.ep_id,
 			PROJ_PE_SCORE: req.params.pe_score,
 			PROJ_PE_COMMENT: req.params.pe_comment,
 			PROJ_COM_SCORE: req.params.com_score,
@@ -72,26 +56,64 @@ router.post('/write', async function (req, res, next) {
 });
 router.get('/result/:userID', async function (req, res, next) {
 	if (req.cookies['user'] !== undefined) {
-		const emp_eval_result = await emp_proj
-			.findAll({
-				include: [
-					{
-						model: emp_proj_eval,
-						include: [
-							{
-								model: project,
-							},
-						],
-					},
+		const eps = await emp_proj.findAll({
+			raw: true,
+			include: {
+				model: project,
+			},
+			where: {
+				EMP_ID: req.params.userID,
+				EP_END_DATE: { [Sequelize.Op.ne]: null },
+			},
+		});
+		const ep_results = [];
+		for (const ep of eps) {
+			const ep_result = { TITLE: ep['project.PRO_TITLE'] };
+			const pe_result_array = await emp_proj_eval.findAll({
+				raw: true,
+				attributes: [
+					'EP_ID',
+					[sequelize.fn('avg', sequelize.col('PROJ_PE_SCORE')), 'avg_pe_score'],
+					[sequelize.fn('max', sequelize.col('PROJ_PE_SCORE')), 'max_pe_score'],
+					[sequelize.fn('min', sequelize.col('PROJ_PE_SCORE')), 'min_pe_score'],
 				],
-				where: { EMP_ID: req.query.userID },
-			})
-			.then((result) => {
-				return result.dataValues;
+				where: { EP_ID: ep.EP_ID },
+				group: ['EP_ID'],
 			});
+			ep_result.pe_agg = pe_result_array[0];
+			const com_result_array = await emp_proj_eval.findAll({
+				raw: true,
+				attributes: [
+					'EP_ID',
+					[
+						sequelize.fn('avg', sequelize.col('PROJ_COM_SCORE')),
+						'avg_com_score',
+					],
+					[
+						sequelize.fn('max', sequelize.col('PROJ_COM_SCORE')),
+						'max_com_score',
+					],
+					[
+						sequelize.fn('min', sequelize.col('PROJ_COM_SCORE')),
+						'min_com_score',
+					],
+				],
+				where: { EP_ID: ep.EP_ID },
+				group: ['EP_ID'],
+			});
+			ep_result.com_agg = com_result_array[0];
+			const emp_eval_results = await emp_proj_eval.findAll({
+				raw: true,
+				where: { EP_ID: ep.EP_ID },
+			});
+			ep_result.results = emp_eval_results;
+			console.log(ep_result);
+			ep_results.push(ep_result);
+		}
+		console.log(ep_results);
 		res.render('result', {
 			user: req.cookies['user'],
-			emp_evals: emp_eval_result,
+			ep_results: ep_results,
 		});
 	} else {
 		res.redirect('/signIn');
@@ -99,69 +121,32 @@ router.get('/result/:userID', async function (req, res, next) {
 });
 router.get('/list/:projID', async function (req, res, next) {
 	if (req.cookies['user'] !== undefined) {
-		// const emp_result = await emp_proj
-		// 	.findAll({
-		// 		include: [
-		// 			{
-		// 				model: employee,
-		// 				atrributes: [EMP_NAME],
-		// 				include: [
-		// 					{
-		// 						model: role,
-		// 					},
-		// 				],
-		// 			},
-		// 		],
-		// 		where: { PRO_ID: req.params.projID },
-		// 	})
-		// 	.then((result) => {
-		// 		return result.dataValues;
-		// 	});
-		res.render('eval_list', {
-			user: req.cookies['user'],
-			proj_name: '안드로이드 앱 개발',
-			// employees: emp_result,
-			employees: [
+		const emp_result = await emp_proj.findAll({
+			raw: true,
+			include: [
 				{
-					EP_ID: 1,
-					EMP_ID: 1,
-					PRO_ID: 1,
-					ROLE_ID: 1,
-					EP_START_DATE: '2021-01-01',
-					EP_END_DATE: '2022-01-01',
-					employee: { EMP_NAME: '안동언' },
-					role: {
-						ROLE_ID: 1,
-						ROLE_NAME: '개발자',
-					},
+					model: employee,
 				},
 				{
-					EP_ID: 2,
-					EMP_ID: 2,
-					PRO_ID: 1,
-					ROLE_ID: 1,
-					EP_START_DATE: '2021-03-01',
-					EP_END_DATE: '2022-01-01',
-					employee: { EMP_NAME: '박선진' },
-					role: {
-						ROLE_ID: 1,
-						ROLE_NAME: '개발자',
-					},
-				},
-				{
-					EP_ID: 3,
-					EMP_ID: 3,
-					PRO_ID: 1,
-					ROLE_ID: 1,
-					EP_START_DATE: '2021-03-01',
-					EP_END_DATE: '2021-07-01',
-					employee: { EMP_NAME: '조현아' },
-					role: {
-						ROLE_ID: 1,
-						ROLE_NAME: '개발자',
-					},
+					model: role,
 				},
 			],
+			where: { PRO_ID: req.params.projID },
+		});
+		const proj_title = await project
+			.findOne({
+				raw: true,
+				where: {
+					PRO_ID: req.params.projID,
+				},
+			})
+			.then((proj) => {
+				return proj.PRO_TITLE;
+			});
+		res.render('eval_list', {
+			user: req.cookies['user'],
+			proj_name: proj_title,
+			employees: emp_result,
 		});
 	} else {
 		res.redirect('/signIn');

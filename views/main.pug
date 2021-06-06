@@ -33,9 +33,9 @@ block content
             tbody 
             each project_info in projs
                 tr(onclick=`location.href="/project/${project_info.PRO_ID}"`)
-                    td=project_info.PRO_TITLE
-                    td=project_info.PRO_TYPE
-                    td=`${project_info.PRO_START_DATE} ~ ${project_info.PRO_START_DATE}`
+                    td=project_info['project.PRO_TITLE']
+                    td=project_info['project.PRO_TYPE']
+                    td=`${project_info['project.PRO_CONTACT_DATE']} ~ ${project_info['project.PRO_END_DATE']}`
             //- each project_info in projs
             //-     tr(onclick=`location.href="/project/${project_info.dataValues.project.PRO_ID}"`)
             //-         td=project_info.dataValues.project.PRO_TITLE

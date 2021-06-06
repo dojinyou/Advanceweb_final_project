@@ -114,6 +114,7 @@ module.exports = {
 				DEPT_UPPER: 2,
 			},
 		];
+
 		await queryInterface.bulkInsert('dept', dept_bulk, {});
 	},
 

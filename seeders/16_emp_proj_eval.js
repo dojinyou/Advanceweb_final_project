@@ -15,12 +15,14 @@ module.exports = {
 		 */
 		const eProjEval_bulk = [
 			{
+				EPE_ID: 1,
 				evaluator: 8,
 				ep_id: 7,
 				proj_pe_score: 10,
 				proj_com_score: 10,
 			},
 			{
+				EPE_ID: 2,
 				evaluator: 7,
 				ep_id: 8,
 				proj_pe_score: 10,

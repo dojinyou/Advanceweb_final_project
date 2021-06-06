@@ -9,7 +9,7 @@ module.exports = function (sequelize, DataTypes) {
 				allowNull: false,
 				primaryKey: true,
 			},
-			ORDER_ID: {
+			CUS_ID: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 				references: {
@@ -22,7 +22,7 @@ module.exports = function (sequelize, DataTypes) {
 				allowNull: false,
 				references: {
 					model: 'emp_proj',
-					key: 'EMP_ID',
+					key: 'EP_ID',
 				},
 			},
 			PROJ_PE_SCORE: {
@@ -56,7 +56,7 @@ module.exports = function (sequelize, DataTypes) {
 				{
 					name: 'FK_CUS_EVAL_CUS_ORDER',
 					using: 'BTREE',
-					fields: [{ name: 'ORDER_ID' }],
+					fields: [{ name: 'CUS_ID' }],
 				},
 				{
 					name: 'FK_CUS_EVAL_EMP_PROJ',

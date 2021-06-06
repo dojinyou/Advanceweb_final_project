@@ -13,14 +13,14 @@ module.exports = {
 		 *   isBetaMember: false
 		 * }], {});
 		 */
-		const order_bulk = [
+		const skill_bulk = [
 			{
-				cus_id: 1,
-				order_date: '2021-01-01',
-				order_comment: 'Database Project',
+				skill_id: 1,
+				skill_name: 'OCM',
+				skill_grade: 5,
 			},
 		];
-		await queryInterface.bulkInsert('order', order_bulk, {});
+		await queryInterface.bulkInsert('skill', skill_bulk, {});
 	},
 
 	down: async (queryInterface, Sequelize) => {
@@ -30,6 +30,6 @@ module.exports = {
 		 * Example:
 		 * await queryInterface.bulkDelete('People', null, {});
 		 */
-		await queryInterface.bulkDelete('order', null, {});
+		await queryInterface.bulkDelete('skill', null, {});
 	},
 };

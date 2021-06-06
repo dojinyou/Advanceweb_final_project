@@ -30,7 +30,7 @@ module.exports = function (sequelize, DataTypes) {
 				allowNull: false,
 			},
 			EMP_R_NUM: {
-				type: DataTypes.INTEGER,
+				type: DataTypes.STRING(14),
 				allowNull: false,
 			},
 			EMP_EDU: {

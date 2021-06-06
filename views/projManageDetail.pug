@@ -9,28 +9,26 @@ block content
 		table.project-table
 			thead
 				tr
-					th(scope='cols') 프로젝트ID
+					th(scope='cols') 고객명
+					th(scope='cols') 계약일자
+					th(scope='cols') 계약금
+			tbody 
+				tr
+					td=cus.CUS_NAME
+					td=proj.PRO_CONTACT_DATE
+					- var overInt = parseInt(proj.CONTRACT_AMOUNT/1000)
+					- overInt = overInt != 0 ? `${overInt},` : ''
+					td=`${overInt}${proj.CONTRACT_AMOUNT%1000},000,000원`
+			thead
+				tr
 					th(scope='cols') 프로젝트명
 					th(scope='cols') 프로젝트 종류
 					th(scope='cols') 프로젝트 기간
 			tbody 
 				tr
-					td=proj.PRO_ID
 					td=proj.PRO_TITLE
 					td=proj.PRO_TYPE
-					td=`${proj.PRO_START_DATE} ~ ${proj.PRO_END_DATE}`
-			thead
-				tr
-					th(scope='cols') 주문ID
-					th(scope='cols') 고객명
-					th(scope='cols') 주문일자
-					th(scope='cols') 주문사항
-			tbody 
-				tr
-					td=order.ORDER_ID
-					td=order.customer.CUS_NAME
-					td=order.ORDER_DATE
-					td=order.ORDER_COMMENT
+					td=`${proj.PRO_CONTACT_DATE} ~ ${proj.PRO_END_DATE}`
 	.project-plan.project-wrapper
 		h5 프로젝트 계획정보
 		table.project-table
@@ -46,27 +44,52 @@ block content
 					tr
 						td=plan.PP_ID
 						td=plan.PLAN_TYPE
-						td=plan.PERIOD
+						td=`${plan.START_DATE}~${plan.END_DATE}`
 						td #{plan.DEPENDENCY ? plan.DEPENDENCY : "없음"}
-						td=plan.STATUS
-	.project-emp.project-wrapper
-		h5 프로젝트 참여인원
+						if plan.STATUS == '진행'
+							- var d_day = Math.ceil((new Date(plan.END_DATE)-Date.now())/(1000 * 60 * 60 * 24))
+							- d_day = d_day > 0 ? d_day : ''
+							td=`${plan.STATUS}(종료 ${d_day}일 전)`
+						else 
+							td=plan.STATUS
+	
+	.project-plan.project-wrapper
+		h5 프로젝트 평가 요약
 		table.project-table
 			thead
 				tr
-					th(scope='cols') 직원ID
-					th(scope='cols') 직무
+					th(scope='cols') 성과 점수(평균)
+					th(scope='cols') 성과 점수(최대)
+					th(scope='cols') 성과 점수(최소)
+					th(scope='cols') 소통 점수(최대)
+					th(scope='cols') 소통 점수(평균)
+					th(scope='cols') 소통 점수(최소)
+			tbody 
+				tr
+					td=ep_result.pe_avg
+					td=ep_result.pe_max
+					td=ep_result.pe_min
+					td=ep_result.com_avg
+					td=ep_result.com_max
+					td=ep_result.com_min
+	.project-emp.project-wrapper
+		h5=`프로젝트 참여인원 ${employees.length}명`
+		table.project-table
+			thead
+				tr
+					th(scope='cols') 직원명
 					th(scope='cols') 직급
-					th(scope='cols') 프로젝트 투입 시간
+					th(scope='cols') 직무
+					th(scope='cols') 프로젝트 수행시간
 					th(scope='cols') 프로젝트 투입일
 					th(scope='cols') 프로젝트 투입 종료일
 			tbody 
 				each emp in employees
 					tr
-						td=emp.EMP_ID
-						td=emp.role.ROLE_NAME
-						td=`${emp.EMP_RANK ? emp.EMP_RANK : '정보 없음'}`
-						td=`${emp.EMP_RANK ? emp.EMP_RANK : '정보 없음'}`
+						td=emp['employee.EMP_NAME']
+						td=emp['employee.EMP_RANK']
+						td=emp['role.ROLE_NAME']
+						td=`${emp.WORKING_TIME}시간`
 						td=emp.EP_START_DATE
 						td=emp.EP_END_DATE
 	.eval_btn_wrapper

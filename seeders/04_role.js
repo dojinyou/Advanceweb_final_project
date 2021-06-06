@@ -13,21 +13,21 @@ module.exports = {
 		 *   isBetaMember: false
 		 * }], {});
 		 */
-		const eProjEval_bulk = [
+		const role_bulk = [
 			{
-				evaluator: 8,
-				ep_id: 7,
-				proj_pe_score: 10,
-				proj_com_score: 10,
+				role_id: 1,
+				role_name: '프로젝트 매니저',
 			},
 			{
-				evaluator: 7,
-				ep_id: 8,
-				proj_pe_score: 10,
-				proj_com_score: 10,
+				role_id: 2,
+				role_name: '주 개발자',
+			},
+			{
+				role_id: 3,
+				role_name: '보조 개발자',
 			},
 		];
-		await queryInterface.bulkInsert('emp_proj_eval', eProjEval_bulk, {});
+		await queryInterface.bulkInsert('role', role_bulk, {});
 	},
 
 	down: async (queryInterface, Sequelize) => {
@@ -37,6 +37,6 @@ module.exports = {
 		 * Example:
 		 * await queryInterface.bulkDelete('People', null, {});
 		 */
-		await queryInterface.bulkDelete('emp_proj_eval', null, {});
+		await queryInterface.bulkDelete('role', null, {});
 	},
 };

@@ -15,7 +15,8 @@ module.exports = {
 		 */
 		const cProjEval_bulk = [
 			{
-				order_id: 1,
+				cpe_id: 1,
+				cus_id: 1,
 				ep_id: 4,
 				proj_pe_score: 10,
 				proj_com_score: 10,

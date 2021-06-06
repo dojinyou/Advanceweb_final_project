@@ -12,7 +12,7 @@ block content
 					th(scope='cols') 프로젝트 기간
 			tbody
 				each project_info in projs
-						tr(onclick=`location.href="/project/${project_info.project.PRO_ID}"`)
-								td=project_info.project.PRO_TITLE
-								td=project_info.project.PRO_TYPE
-								td=`${project_info.project.PRO_START_DATE} ~ ${project_info.project.PRO_START_DATE}`
+					tr(onclick=`location.href="/project/${project_info['project.PRO_ID']}"`)
+						td=project_info['project.PRO_TITLE']
+						td=project_info['project.PRO_TYPE']
+						td=`${project_info['project.PRO_CONTACT_DATE']} ~ ${project_info['project.PRO_END_DATE']}`

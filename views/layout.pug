@@ -18,7 +18,7 @@ html
         .nav-sub-menu
           ul
             li 
-              a(href='/manage/emp') 경영관리
+              a(href='/manage/emp/EMP_NAME?dept_name=전체&emp_name=') 경영관리
             li 
               a(href='/project') 프로젝트관리
             li 
@@ -35,15 +35,15 @@ html
             i.fas.fa-user.fa-4x
           .namespace-welcome
             h4 안녕하세요
-            //- h6 #{user.DEPT_NAME}부서 #{user.EMP_NAME}님!
+            h6=`${user.DEPT_NAME}부서 ${user.EMP_NAME}님!`
         section.search
           form#form(action='/search/result/EMP_NAME' method='get')
             h4 직원검색
             select#dept_select(name="dept_name")
               option(value="전체") 전체
               option(value="경영진") 경영진
-              option(value="경영팀") 경영팀
-              option(value="개발팀") 개발팀
+              option(value="경영") 경영팀
+              option(value="개발") 개발팀
               option(value="재무") 재무부서
               option(value="인사") 인사부서
               option(value="경영지원") 경영지원부서
