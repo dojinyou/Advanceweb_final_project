@@ -14,12 +14,16 @@ const {
 	emp_proj_eval,
 } = require('../models');
 
+// 정렬 기준을 통한 직원 리스트 정렬
 router.get('/emp/:sortCondition', isLoggedIn, async function (req, res, next) {
+	// 경영진인 경우에만 이용 가능
 	if (req.user.DEPT_NAME == '경영진') {
 		const emp_name = req.query.emp_name;
 		const dept_name = req.query.dept_name;
 		let search_result;
+		// 고객 명이 없는 검색일 경우
 		if (!emp_name) {
+			// 특정 부서가 지칭된 경우
 			if (dept_name != '전체') {
 				search_result = await employee.findAll({
 					raw: true,
@@ -32,6 +36,7 @@ router.get('/emp/:sortCondition', isLoggedIn, async function (req, res, next) {
 				});
 				console.log(search_result);
 			} else {
+				// 전체 부서인 경우
 				search_result = await employee.findAll({
 					raw: true,
 					include: {
@@ -39,7 +44,9 @@ router.get('/emp/:sortCondition', isLoggedIn, async function (req, res, next) {
 					},
 				});
 			}
+			//특정 직원명이 입력된 경우
 		} else {
+			// 특정 부서인 경우
 			if (dept_name != '전체') {
 				search_result = await employee.findAll({
 					raw: true,
@@ -53,6 +60,7 @@ router.get('/emp/:sortCondition', isLoggedIn, async function (req, res, next) {
 						EMP_NAME: emp_name,
 					},
 				});
+				// 전체 부서인 경우
 			} else {
 				search_result = await employee.findAll({
 					raw: true,
@@ -65,12 +73,12 @@ router.get('/emp/:sortCondition', isLoggedIn, async function (req, res, next) {
 				});
 			}
 		}
+		// 조건에 맞는 결과를 가져온 뒤 정렬 기준에 따라 정렬하여 데이터 전송
 		search_result = search_result.sort(function (a, b) {
 			return a[`${req.params.sortCondition}`] < b[`${req.params.sortCondition}`]
 				? -1
 				: 1;
 		});
-		// console.log(search_result);
 		res.render('empManage', {
 			user: req.user,
 			emp_name,
@@ -79,14 +87,18 @@ router.get('/emp/:sortCondition', isLoggedIn, async function (req, res, next) {
 			search_result,
 		});
 	} else {
-		res.redirect('/main'); // 임원이 아니면 메인 페이지로 이동
+		// 경영진이 아니라면 메인으로 이동시키기
+		res.redirect('/main');
 	}
 });
 
+// 프로젝트 정보 화면 렌더링
 router.get('/proj', isLoggedIn, async function (req, res, next) {
+	// 경영진만 이용 가능
 	if (req.user.DEPT_NAME == '경영진') {
 		const proj_name = req.query.proj_name;
 		const results = [];
+		// 특정 프로젝트만 찾는 경우
 		if (proj_name) {
 			const result = {};
 			proj_data = await project.findOne({
@@ -109,9 +121,12 @@ router.get('/proj', isLoggedIn, async function (req, res, next) {
 			result.TOTAL_TIME = emp_proj_data[0].TOTAL_WORKING_TIME;
 			results.push(result);
 		} else {
+			// 모든 프로젝트를 찾는 경우
 			proj_data = await project.findAll({
 				raw: true,
 			});
+			// 모든 프로젝트에 대해서 다시 참여 직원에 대한 정보 가져오기
+			// 근무 시간 등을 계산을 이ㅜ해 분리
 			for (const pd of proj_data) {
 				const result = {};
 				result.proj = pd;
@@ -139,12 +154,16 @@ router.get('/proj', isLoggedIn, async function (req, res, next) {
 			results: results,
 		});
 	} else {
-		res.redirect('/main'); // 임원이 아니면 메인 페이지로 이동
+		// 경영진이 아닐 경우 메인으로 이동
+		res.redirect('/main');
 	}
 });
 
+// 프로젝트 상세보기 페이지 렌더링
 router.get('/proj/detail/:projID', isLoggedIn, async function (req, res, next) {
+	// 경영진 확인
 	if (req.user.DEPT_NAME == '경영진') {
+		// 특정 프로젝트에 대한 결과 가져오기
 		const project_result = await project.findOne({
 			raw: true,
 			where: {
@@ -170,6 +189,7 @@ router.get('/proj/detail/:projID', isLoggedIn, async function (req, res, next) {
 			],
 			where: { PRO_ID: project_result.PRO_ID },
 		});
+		// 평가 결과 초기화
 		const ep_result = {};
 		let pe_avg_sum = 0;
 		let pe_max = 0;
@@ -180,6 +200,7 @@ router.get('/proj/detail/:projID', isLoggedIn, async function (req, res, next) {
 		let com_min = 10;
 		let com_cnt = 0;
 
+		// 프로젝트 참여 직원에 대한 결과를 처리하기
 		for (const ep of proj_emp_result) {
 			const pe_result_array = await emp_proj_eval.findAll({
 				raw: true,
@@ -192,6 +213,7 @@ router.get('/proj/detail/:projID', isLoggedIn, async function (req, res, next) {
 				where: { EP_ID: ep.EP_ID },
 				group: ['EP_ID'],
 			});
+			// 실제 평가가 존재한다면
 			if (pe_result_array.length > 0) {
 				pe_avg_sum += parseFloat(pe_result_array[0].avg_pe_score);
 				console.log(pe_result_array[0].avg_pe_score);
@@ -204,8 +226,10 @@ router.get('/proj/detail/:projID', isLoggedIn, async function (req, res, next) {
 						? pe_result_array[0].min_pe_score
 						: pe_min;
 			} else {
+				// 허수라면 체크
 				pe_cnt += 1;
 			}
+			//직원 평가 처리
 			const com_result_array = await emp_proj_eval.findAll({
 				raw: true,
 				attributes: [
@@ -240,15 +264,15 @@ router.get('/proj/detail/:projID', isLoggedIn, async function (req, res, next) {
 				com_cnt += 1;
 			}
 		}
-		console.log(pe_avg_sum);
-		console.log(com_avg_sum);
+		// 평가 요약 처리
 		ep_result.pe_avg = pe_avg_sum / (proj_emp_result.length - pe_cnt);
+		ep_result.pe_avg = Math.round(ep_result.pe_avg * 100) / 100;
 		ep_result.com_avg = com_avg_sum / (proj_emp_result.length - com_cnt);
+		ep_result.com_avg = Math.round(ep_result.com_avg * 100) / 100;
 		ep_result.pe_max = pe_max;
 		ep_result.pe_min = pe_min;
 		ep_result.com_max = com_max;
 		ep_result.com_min = com_min;
-		console.log(ep_result);
 		res.render('projManageDetail', {
 			user: req.user,
 			proj: project_result,
@@ -258,7 +282,7 @@ router.get('/proj/detail/:projID', isLoggedIn, async function (req, res, next) {
 			ep_result: ep_result,
 		});
 	} else {
-		res.redirect('/signIn');
+		res.redirect('/main');
 	}
 });
 

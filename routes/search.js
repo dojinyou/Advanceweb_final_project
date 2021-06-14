@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { employee, dept } = require('../models');
 const { isLoggedIn } = require('./middlewares');
-/* GET users listing. */
+
+// 일반직원 검색 처리
 router.get(
 	'/result/:sortCondition',
 	isLoggedIn,
@@ -61,7 +62,6 @@ router.get(
 				? -1
 				: 1;
 		});
-		// console.log(search_result);
 		res.render('searchResult', {
 			user: req.user,
 			emp_name,

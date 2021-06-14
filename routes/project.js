@@ -10,7 +10,7 @@ const {
 	emp_proj,
 } = require('../models');
 
-/* GET project page. */
+// 프로젝트 페이지 렌더링
 router.get('/', isLoggedIn, async function (req, res, next) {
 	const projs = await emp_proj.findAll({
 		raw: true,
@@ -29,6 +29,7 @@ router.get('/', isLoggedIn, async function (req, res, next) {
 	});
 });
 
+// 프로젝트 상세보기 페이지 렌더링
 router.get('/:projID', async function (req, res, next) {
 	const project_result = await project.findOne({
 		raw: true,
