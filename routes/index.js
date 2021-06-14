@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-const { employee, dept, emp_proj, project } = require('../models');
+const { isLoggedIn } = require('./middlewares');
+const { emp_proj, project } = require('../models');
 
 /* GET home page. */
 router.get('/', isLoggedIn, function (req, res, next) {

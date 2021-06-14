@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Op } = require('sequelize');
-const { employee, sequelize } = require('../models');
+const { employee } = require('../models');
 
 router.get('/employee/emp_id', async function (req, res, next) {
 	const employees = await employee.findAll({
