@@ -96,14 +96,14 @@ router.post('/write', isLoggedIn, async function (req, res, next) {
 	res.redirect(`/eval/list/${req.query.proj_id}`);
 });
 
-router.get('/result/:userID', isLoggedIn, async function (req, res, next) {
+router.get('/result', isLoggedIn, async function (req, res, next) {
 	const eps = await emp_proj.findAll({
 		raw: true,
 		include: {
 			model: project,
 		},
 		where: {
-			EMP_ID: req.params.userID,
+			EMP_ID: req.user.EMP_ID,
 			EP_END_DATE: { [Sequelize.Op.ne]: null },
 		},
 	});
@@ -139,8 +139,9 @@ router.get('/result/:userID', isLoggedIn, async function (req, res, next) {
 			where: { EP_ID: ep.EP_ID },
 		});
 		ep_result.results = emp_eval_results;
+		ep_results.push(ep_result);
 	}
-	res.render('result', {
+	res.render('eval_result', {
 		user: req.user,
 		ep_results: ep_results,
 	});

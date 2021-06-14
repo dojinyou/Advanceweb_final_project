@@ -81,25 +81,6 @@ router.get('/emp/:sortCondition', isLoggedIn, async function (req, res, next) {
 	} else {
 		res.redirect('/main'); // 임원이 아니면 메인 페이지로 이동
 	}
-	res.render('empManage', {
-		user: req.user,
-		projs: req.cookies['projs'],
-		emps: [
-			{
-				EMP_ID: 1,
-				EMP_NAME: '홍길동',
-				dept: {
-					DEPT_NAME: '부서1',
-				},
-				data: {
-					ROLE_NAME: '개발자',
-					PRO_TITLE: '테스트프로젝트',
-					CUS_SCORE: 5.6,
-					EMP_SCORE: 7.8,
-				},
-			},
-		],
-	});
 });
 
 router.get('/proj', isLoggedIn, async function (req, res, next) {
@@ -156,26 +137,6 @@ router.get('/proj', isLoggedIn, async function (req, res, next) {
 		res.render('projManage', {
 			user: req.user,
 			results: results,
-			// projs: [
-			// 	{
-			// 		PRO_ID: 1,
-			// 		PRO_TITLE: '이름1',
-			// 		PRO_TYPE: '종류1',
-			// 		PRO_PM: '홍길동',
-			// 		PRO_NUM: 10,
-			// 		PRO_START_DATE: '2222.02.22',
-			// 		PRO_START_DATE: '3333.03.30',
-			// 	},
-			// 	{
-			// 		PRO_ID: 2,
-			// 		PRO_TITLE: '이름2',
-			// 		PRO_TYPE: '종류2',
-			// 		PRO_PM: '김철수',
-			// 		PRO_NUM: 5,
-			// 		PRO_START_DATE: '2222.02.22',
-			// 		PRO_START_DATE: '3333.03.30',
-			// 	},
-			// ],
 		});
 	} else {
 		res.redirect('/main'); // 임원이 아니면 메인 페이지로 이동
@@ -232,7 +193,8 @@ router.get('/proj/detail/:projID', isLoggedIn, async function (req, res, next) {
 				group: ['EP_ID'],
 			});
 			if (pe_result_array.length > 0) {
-				pe_avg_sum += pe_result_array[0].avg_pe_score;
+				pe_avg_sum += parseFloat(pe_result_array[0].avg_pe_score);
+				console.log(pe_result_array[0].avg_pe_score);
 				pe_max =
 					pe_max > pe_result_array[0].max_pe_score
 						? pe_max
@@ -265,7 +227,7 @@ router.get('/proj/detail/:projID', isLoggedIn, async function (req, res, next) {
 				group: ['EP_ID'],
 			});
 			if (com_result_array.length > 0) {
-				com_avg_sum += com_result_array[0].avg_com_score;
+				com_avg_sum += parseFloat(com_result_array[0].avg_com_score);
 				com_max =
 					com_max > com_result_array[0].max_com_score
 						? com_max
@@ -278,12 +240,15 @@ router.get('/proj/detail/:projID', isLoggedIn, async function (req, res, next) {
 				com_cnt += 1;
 			}
 		}
+		console.log(pe_avg_sum);
+		console.log(com_avg_sum);
 		ep_result.pe_avg = pe_avg_sum / (proj_emp_result.length - pe_cnt);
 		ep_result.com_avg = com_avg_sum / (proj_emp_result.length - com_cnt);
 		ep_result.pe_max = pe_max;
 		ep_result.pe_min = pe_min;
 		ep_result.com_max = com_max;
 		ep_result.com_min = com_min;
+		console.log(ep_result);
 		res.render('projManageDetail', {
 			user: req.user,
 			proj: project_result,

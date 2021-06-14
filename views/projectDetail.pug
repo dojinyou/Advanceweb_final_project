@@ -76,7 +76,7 @@ block content
 							td=emp.EP_START_DATE
 							td=emp.EP_END_DATE
 	.eval_btn_wrapper
-		button(type="button" onclick=`location.href="/eval/result/${user.EMP_ID}"`).btn.btn-dark 내 평가 보러가기
+		button(type="button" onclick='location.href="/eval/result"').btn.btn-dark 내 평가 보러가기
 		if pPlans[pPlans.length-1].STATUS == '종료'
 			button(type="button" onclick=`location.href="/eval/list/${proj.PRO_ID}"`).btn.btn-dark 동료 평가하기
 		else 

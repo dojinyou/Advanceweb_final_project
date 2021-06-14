@@ -20,7 +20,6 @@ router.get('/main', isLoggedIn, async function (req, res, next) {
 			EMP_ID: req.user.EMP_ID,
 		},
 	});
-
 	res.render('main', {
 		user: req.user,
 		projs,
