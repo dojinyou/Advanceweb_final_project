@@ -71,7 +71,11 @@ module.exports = function (sequelize, DataTypes) {
 				allowNull: true,
 			},
 			EMP_WEB_PW: {
-				type: DataTypes.STRING(20),
+				type: DataTypes.STRING(255),
+				allowNull: true,
+			},
+			EMP_WEB_IMG: {
+				type: DataTypes.STRING(255),
 				allowNull: true,
 			},
 		},

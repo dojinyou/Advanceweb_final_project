@@ -5,13 +5,13 @@ block content
   .login
     .container
       .form-signin
-        form#form(action='/signIn' method='POST')
+        form#form(action='/auth/signin' method='POST')
           h1.login_h1 Sign In
           .form-floating
-            input#login_id.form-control(type='text' name="userID" placeholder='ID')
+            input#login_id.form-control(type='text' name="EMP_WEB_ID" placeholder='ID')
             label(for='floatingInput') ID
           .form-floating
-            input#login_pw.form-control(type='password' name="userPW" placeholder='Password')
+            input#login_pw.form-control(type='password' name="EMP_WEB_PW" placeholder='Password')
             label(for='floatingPassword') Password
           .form-floating
               button#login_btn.btn.btn-dark(type='submit') Sign in
@@ -23,4 +23,4 @@ block content
             a(href="#") 비밀번호 찾기
           .signup
             p 아직 회원 가입을 안 했다면? 
-              a(href="/signUp") 회원가입
+              a(href="/auth/signup") 회원가입

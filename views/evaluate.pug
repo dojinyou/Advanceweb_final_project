@@ -13,11 +13,29 @@ block content
                     th 프로젝트명
             tbody
                 tr
-                    td #{user.EMP_NAME}
+                    td #{ep_result['employee.EMP_NAME']}
                     td #{ep_result['role.ROLE_NAME']}
                     td #{ep_result['project.PRO_TITLE']}
+        if epe_result
+            .exEval
+                .exEval_title
+                    h2 이전 평가
+                    a.btn.btn-danger(href=`/eval/delete?epe_id=${epe_result.EPE_ID}&proj_id=${ep_result['project.PRO_ID']}`) 평가 삭제하기
+                table.project-table
+                    thead
+                        tr
+                            th 업무수행 평가
+                            th 업무수행 코멘트
+                            th 소통능력 평가
+                            th 소통능력 코멘트
+                    tbody
+                        tr
+                            td #{epe_result.PROJ_PE_SCORE}
+                            td #{epe_result.PROJ_PE_COMMENT}
+                            td #{epe_result.PROJ_COM_SCORE}
+                            td #{epe_result.PROJ_COM_COMMENT}
 
-        form(action=`/eval/write/?emp_id=${emp_id}&&ep_id=${ep_id}`, method="post") 
+        form(action=`/eval/write/?proj_id=${ep_result['project.PRO_ID']}&ep_id=${ep_id}`, method="post") 
             h2 항목 1 업무수행 평가
             h4 업무 수행에 있어 능력이 뛰어나다.
             table(border='1')

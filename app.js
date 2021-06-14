@@ -2,10 +2,16 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const dotenv = require('dotenv');
 const logger = require('morgan');
+const passport = require('passport');
+
+dotenv.config();
+const passportConfig = require('./passport');
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth');
 const projectRouter = require('./routes/project');
 const evalRouter = require('./routes/evaluate');
 const dataRouter = require('./routes/data');
@@ -14,6 +20,8 @@ const manageRouter = require('./routes/manage');
 const sequelize = require('./models/index').sequelize;
 
 const app = express();
+passportConfig();
+
 sequelize.sync();
 
 // view engine setup
@@ -23,12 +31,27 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/img', express.static(path.join(__dirname, 'uploads')));
+app.use(
+	session({
+		resave: false,
+		saveUninitialized: false,
+		secret: process.env.COOKIE_SECRET,
+		cookie: {
+			httpOnly: true,
+			secure: false,
+		},
+	})
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
+app.use('/auth', authRouter);
 app.use('/data', dataRouter);
-app.use('/users', usersRouter);
 app.use('/project', projectRouter);
 app.use('/eval', evalRouter);
 app.use('/search', searchRouter);

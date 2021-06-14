@@ -86,4 +86,24 @@ window.onload = function () {
 			input_pw_check.style.borderColor = 'red';
 		}
 	});
+
+	if (document.getElementById('sign-up_img')) {
+		document
+			.getElementById('sign-up_img')
+			.addEventListener('change', function (e) {
+				const formData = new FormData();
+				console.log(this, this.files);
+				formData.append('img', this.files[0]);
+				axios
+					.post('/auth/img', formData)
+					.then((res) => {
+						document.getElementById('img-url').value = res.data.url;
+						document.getElementById('img-preview').src = res.data.url;
+						document.getElementById('img-preview').style.display = 'inline';
+					})
+					.catch((err) => {
+						console.error(err);
+					});
+			});
+	}
 };

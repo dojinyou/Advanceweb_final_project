@@ -62,8 +62,6 @@ module.exports = {
 				emp_seniority: 1,
 				emp_sal_rate: 0,
 				emp_retire_date: null,
-				emp_web_id: 'syu10',
-				emp_web_pw: 1234,
 			},
 			{
 				emp_id: 4,
@@ -79,8 +77,6 @@ module.exports = {
 				emp_seniority: 1,
 				emp_sal_rate: 0,
 				emp_retire_date: null,
-				emp_web_id: 'minjun10',
-				emp_web_pw: 1234,
 			},
 			{
 				emp_id: 5,
@@ -96,8 +92,6 @@ module.exports = {
 				emp_seniority: 1,
 				emp_sal_rate: 0,
 				emp_retire_date: null,
-				emp_web_id: 'minsu10',
-				emp_web_pw: 1234,
 			},
 			{
 				emp_id: 93,

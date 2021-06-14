@@ -73,13 +73,25 @@ a {
 
 /* side bar */
 aside.sidebar {
-  padding: 10px;
+  padding-left: 10px;
 }
 section.namespace {
   padding-top: 20px;
   display: flex;
   justify-content:space-evenly;
   align-items:flex-start;
+}
+
+.namespace-welcome {
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items:center
+}
+.namespace-img > img {
+  width: 7rem;
+  height: 10rem;
 }
 
 section.search {

@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const { isLoggedIn } = require('./middlewares');
 const {
 	role,
 	project,
@@ -10,15 +11,22 @@ const {
 } = require('../models');
 
 /* GET project page. */
-router.get('/', function (req, res, next) {
-	if (req.cookies['user'] !== undefined) {
-		res.render('project', {
-			user: req.cookies['user'],
-			projs: req.cookies['projs'],
-		});
-	} else {
-		res.redirect('/signIn');
-	}
+router.get('/', isLoggedIn, async function (req, res, next) {
+	const projs = await emp_proj.findAll({
+		raw: true,
+		include: [
+			{
+				model: project,
+			},
+		],
+		where: {
+			EMP_ID: req.user.EMP_ID,
+		},
+	});
+	res.render('project', {
+		user: req.user,
+		projs: projs,
+	});
 });
 
 router.get('/:projID', async function (req, res, next) {
@@ -48,7 +56,7 @@ router.get('/:projID', async function (req, res, next) {
 		where: { PRO_ID: project_result.PRO_ID },
 	});
 	res.render('projectDetail', {
-		user: req.cookies['user'],
+		user: req.user,
 		proj: project_result,
 		cus: cus_result,
 		pPlans: pPlan_result,

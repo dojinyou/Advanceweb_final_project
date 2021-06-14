@@ -13,8 +13,8 @@ html
       nav.nav 
         .nav-logo
           a.logo_link(href='/main')
-            h1 PROMPT
-            h4 SOLUTION
+            h1 Advance
+            h4 Web Project
         .nav-sub-menu
           ul
             li 
@@ -31,11 +31,18 @@ html
               a(href='#') 게시판
       aside.sidebar
         section.namespace
-          .namespace-icon
-            i.fas.fa-user.fa-4x
+          .namespace-img
+            if user.EMP_WEB_IMG
+              img(src=`${user.EMP_WEB_IMG}`)
+            else
+              img(src='img/basic_profile_image.jpg')
           .namespace-welcome
             h4 안녕하세요
-            h6=`${user.DEPT_NAME}부서 ${user.EMP_NAME}님!`
+            .namespace-info
+              h6=`${user.DEPT_NAME}부서`
+              h6=`${user.EMP_NAME} ${user.EMP_RANK}님!`
+            .namespace-logout 
+              a.btn.btn-danger(href='/auth/logout') logout
         section.search
           form#form(action='/search/result/EMP_NAME' method='get')
             h4 직원검색

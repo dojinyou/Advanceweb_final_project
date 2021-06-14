@@ -3,7 +3,7 @@ block link
   link(rel='stylesheet' href="/stylesheets/eval.css")
 block content
   .eval_head
-    h2=proj_name
+    h2=proj.PRO_TITLE
     h2 평가자 : #{user.EMP_NAME}
   .cur-project.project-wrapper
     table.project-table
@@ -15,7 +15,7 @@ block content
       tbody 
         each emp in employees
           if emp['employee.EMP_NAME'] != user.EMP_NAME
-            tr(onclick=`location.href="/eval/?ep_id=${emp.EP_ID}&emp_id=${emp.EMP_ID}"`)
+            tr(onclick=`location.href="/eval/?ep_id=${emp.EP_ID}&proj_id=${proj.PRO_ID}"`)
                 td=emp['employee.EMP_NAME']
                 td=emp['role.ROLE_NAME']
                 td=`${emp.EP_START_DATE} ~ ${emp.EP_END_DATE}`

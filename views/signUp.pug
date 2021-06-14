@@ -7,7 +7,7 @@ block content
   .sign-up
     .container
       .form-signin
-        form#form(action='/signUp' method='POST')
+        form#form(action='/auth/signup' method='POST')
           h1.sign-up_h1 Sign Up
           .form-floating
             input#sign-up_userId.form-control(type='text' name="userID" placeholder='userID')
@@ -25,6 +25,13 @@ block content
             input#sign-up_pw_check.form-control(type='password' name="passwordCheck" placeholder='PasswordCheck')
             i#icon_pw_check.fas.fa-eye.fa-4x
             label(for='floatingPassword') PasswordCheck
+          .form-floating
+            input#sign-up_img.form-control(type='file' name="img" accept="image/*")
+            label(for='img') Profile Image
+          .form-floating
+            img#img-preview(scr='' style='display:none' width='250', alt='미리보기')
+            input#img-url(type='hidden' name="url")
+            label(for='img-url') 미리보기
           .form-floating
             button#sign-up_btn.btn.btn-dark(type='submit') Sign Up
             a(href='javascript:history.back();')#sign-up_cancel.btn.btn-danger Cancel

@@ -47,8 +47,8 @@ block content
               else 
                 i.fas.fa-long-arrow-alt-down
           th(scope='cols') 부서
-            a(href=`/manage/emp/DEPT_NAME?dept_name=${dept_name}&emp_name=${emp_name}`)
-              if sortCondition == 'DEPT_NAME'
+            a(href=`/manage/emp/dept.DEPT_NAME?dept_name=${dept_name}&emp_name=${emp_name}`)
+              if sortCondition == 'dept.DEPT_NAME'
                 i.fas.fa-long-arrow-alt-up
               else 
                 i.fas.fa-long-arrow-alt-down
